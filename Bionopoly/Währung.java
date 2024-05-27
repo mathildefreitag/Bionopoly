@@ -1,7 +1,5 @@
 package Bionopoly;
 
-import tictactoe.Player;
-
 public class Währung {
 	
 	private Spielfeld [] [] feld;

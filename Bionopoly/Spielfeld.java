@@ -100,9 +100,10 @@ public class Spielfeld extends JPanel {
         setBounds(xKoord, yKoord, breite, hoehe);
         this.setLayout(null);
         initialisierungModule();
+    }
         
         // JLabel erstellen und konfigurieren
-        JLabel lblMonopoly = new JLabel("MONOPOLY") {
+       /* JLabel lblMonopoly = new JLabel("MONOPOLY") {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -117,6 +118,7 @@ public class Spielfeld extends JPanel {
                 super.paintComponent(g);
             }
         };
+        
 
         lblMonopoly.setForeground(Color.WHITE);
         lblMonopoly.setBackground(Color.RED);
@@ -126,7 +128,7 @@ public class Spielfeld extends JPanel {
         lblMonopoly.setBounds(179, 277, 263, 55);
         this.add(lblMonopoly);
     }
-
+*/
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Spielbrett Beispiel");
@@ -136,22 +138,56 @@ public class Spielfeld extends JPanel {
         frame.setVisible(true);
     }
 
-
-
 	private void initialisierungModule() {
-		String[] modulNamen = { "Start", "Digital Learning/ Englisch", "Gemeinschaftsfeld", "Präperationstechnik",
-				"O-Woche", "Werder Straße", "Allg. Biologie/ Bionik", "Mathe/ Informatik", "Statistische Datenanalyse",
-				"Chemie/ Physik", "Nachprüfung/ Klausureinsicht", "Spezielle Biologie", "Bibilothek", "Physiologie",
-				"Material/ Mechanik", "Neustadswall", "Konstruktion/ CAD", "Gemeinschaftsfeld", "Projekt Management",
-				"Wahlpflichtmodul", "Urlaubssemester", "Lokomotion", "Ereignisfeld", "Finite Elemente Methode",
-				"Spezirlle Werkstoffkunde", "Airport", "Interkulturelle Kompetenz", "Auslandssemester",
-				"Hochschulsport", "Auslandsnachbereitung", "Prüfung nicht bestanden", "Entwichlungsprojekt 'Bionik' ",
-				"Organisationsbionik/ BWL", "Gemeinschaftsfeld", "Optimierungsverfahren", "Bionik Innovations-Centrum",
-				"Ereignisfeld", "Bachelor Thesis", "Bachelor Abschluss-Party", "Bachelorabschluss" };
+		String[] modulNamen = { "Start", 
+				"Digital Learning/ Englisch", 
+				"Gemeinschaftsfeld", 
+				"Präperationstechnik",
+				"O-Woche", 
+				"Werder Straße", 
+				"Allg. Biologie/ Bionik", 
+				"Mathe/ Informatik", 
+				"Statistische Datenanalyse",
+				"Chemie/ Physik", 
+				"Nachprüfung/ Klausureinsicht", 
+				"Spezielle Biologie", 
+				"Bibilothek", 
+				"Physiologie",
+				"Material/ Mechanik", 
+				"Neustadswall", 
+				"Konstruktion/ CAD", 
+				"Gemeinschaftsfeld", 
+				"Projekt Management",
+				"Wahlpflichtmodul", 
+				"Urlaubssemester", 
+				"Lokomotion", 
+				"Ereignisfeld", 
+				"Finite Elemente Methode",
+				"Spezirlle Werkstoffkunde", 
+				"Airport", 
+				"Interkulturelle Kompetenz", 
+				"Auslandssemester",
+				"Hochschulsport", 
+				"Auslandsnachbereitung", 
+				"Prüfung nicht bestanden", 
+				"Entwichlungsprojekt 'Bionik' ",
+				"Organisationsbionik/ BWL", 
+				"Gemeinschaftsfeld", 
+				"Optimierungsverfahren", 
+				"Bionik Innovations-Centrum",
+				"Ereignisfeld", 
+				"Bachelor Thesis", 
+				"Bachelor Abschluss-Party", 
+				"Bachelorabschluss" };
 		
-		int[] preise = { 0, 60, 00, 200, 100, 100, 100, 120, 0, 140, 150, 140, 160, 200, 180, 0, 180, 200, 0, 220, 0, 220, 240, 200, 260, 260, 150, 280, 0, 300, 300, 0, 320, 200, 0, 350, 0, 400};
-		int[] miete = {0, 2, 4, 0, 25, 6, 6, 6, 8, 0, 10, /*augenzahl *4 ,*/ 10, 12, 25, 14, 0, 14, 16, 0, 18, 0, 18, 20, 25, 22, 22,/* augenzahl * 4,*/ 24, 0, 26, 26, 0, 28, 25, 0, 35, 0, 50};
+		int[] preise = { 0, 60, 0, 60, 0,  200, 100, 100, 100, 120, 0, 140, 150, 140, 160, 200, 180, 0, 180, 200, 0, 220, 0, 220, 240, 200, 260, 260, 150, 280, 0, 300, 300, 0, 320, 200, 0, 350, 0, 400};
+		int[] miete = {0, 2, 0, 4, 0, 25, 6, 6, 6, 8, 0, 10, 0, /*statt der vorherigen 0 augenzahl *4 ,*/ 10, 12, 25, 14, 0, 14, 16, 0, 18, 0, 18, 20, 25, 22, 22, 0, /* statt der vorherigen 0 augenzahl * 4,*/ 24, 0, 26, 26, 0, 28, 25, 0, 35, 0, 50};
 		 
+		
+		//System.out.println("Länge von modulNamen: " + modulNamen.length);
+	    //System.out.println("Länge von preise: " + preise.length);
+	    //System.out.println("Länge von miete: " + miete.length);
+	    
 		for (int i = 0; i < modulNamen.length; i++) {
 	            Feld feld = new Feld(6, 1000 - 100 * i, 100, 100, modulNamen[i], 90);
 	            feld.setPrice(preise[i]);
@@ -493,12 +529,11 @@ public class Spielfeld extends JPanel {
 	}
 
 	public static void swingUntilities(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() 
+		{
 			public void run() {
 				createAndShowGUI();
 			}
-		});
-	}
- }
-
+		}
+		);
 }}

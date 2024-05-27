@@ -17,6 +17,8 @@ package Bionopoly;
 	    public Feld(int x, int y, int width, int height, String name, int rotation) {
 	        super(name); // Setze den Text des Labels
 	        this.rotation = rotation;
+	        this.preis = 0; 
+	        this.miete = 0;
 	        setBounds(x, y, width, height);
 	        setOpaque(true);
 	        setBackground(Color.LIGHT_GRAY);
