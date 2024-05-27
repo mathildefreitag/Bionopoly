@@ -1,8 +1,3 @@
-//package gui;
-
-//public class SpielfigurGui {
-
-//}
 package gui;
 
 import bionopoly.Spielfigur;
@@ -43,7 +38,7 @@ public class SpielfigurGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Würfel würfel = new Würfel();
-                würfel.würfeln();
+                würfel.würfel();
                 int augensumme = würfel.getAugensumme();
                 System.out.println("Gewürfelte Augensumme: " + augensumme);
 
@@ -57,7 +52,14 @@ public class SpielfigurGui extends JFrame {
     }
 
     private void addSpielfigur(Spielfigur spielfigur, String bildDatei) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(bildDatei));
+        // Überprüfe, ob die Ressource vorhanden ist
+        java.net.URL bildURL = getClass().getResource("/" + bildDatei);
+        if (bildURL == null) {
+            System.out.println("Bilddatei nicht gefunden: " + bildDatei);
+            return;
+        }
+        
+        ImageIcon icon = new ImageIcon(bildURL);
         JLabel label = new JLabel(icon);
         label.setBounds(50, 50, icon.getIconWidth(), icon.getIconHeight());
         spielfeld.add(label);
