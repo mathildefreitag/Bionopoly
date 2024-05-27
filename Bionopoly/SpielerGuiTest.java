@@ -12,8 +12,8 @@ import java.util.List;
 public class SpielerGuiTest extends JFrame {
 
     private List<Spieler> spielerListe;
-    private Wuerfel wuerfel;
-    private Feld[] spielfeld;
+    private Würfel wuerfel;
+    private Spielfeld[] spielfeld;
     private JTextArea infoArea;
     private JButton wuerfelnButton, zugBeendenButton;
     private int aktuellerSpielerIndex;
