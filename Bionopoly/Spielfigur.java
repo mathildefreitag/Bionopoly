@@ -1,88 +1,79 @@
+
 package bionopoly;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Klasse Spielfigur
-class Spielfigur {
-//	Name deklarieren
-	private String name;
+public class Spielfigur {
+    // Name deklarieren
+    private String name;
 
-//    Wenn ein Name geändert wird werden nicht alle Namen geändert sondern nur der der Instanz
-	public Spielfigur(String name) {
-		this.name = name;
-	}
+    // Konstruktor zum Initialisieren des Namens
+    public Spielfigur(String name) {
+        this.name = name;
+    }
 
-//    Methode zum Aufrufen des Names
-	public String getName() {
-		return name;
-	}
+    // Methode zum Aufrufen des Namens
+    public String getName() {
+        return name;
+    }
 
-// um auf augensumme Zugriff zu haben
-private void felderVorrücken (Würfel würfel) {
-int augensumme = würfel.getAugensumme();
-    // Hier können Sie Logik hinzufügen, um die Spielfigur basierend auf der Augensumme zu verschieben
-    System.out.println("Die Spielfigur " + name + " rückt um " + augensumme + " Felder vor.");
-}
+    // Methode um auf augensumme Zugriff zu haben und Spielfigur basierend auf der Augensumme zu verschieben
+    public void felderVorrücken(Würfel würfel) {
+        int augensumme = würfel.getAugensumme();
+        System.out.println("Die Spielfigur " + name + " rückt um " + augensumme + " Felder vor.");
+    }
 
-public static void main(String[] args) {
-    // Beispielhafte Verwendung
-    Spielfigur figur = new Spielfigur("Regenwurm");
-    Würfel würfel = new Würfel();
-    würfel.würfel();
-    figur.felderVorrücken(würfel);
-}
-}
+    public static void main(String[] args) {
+        // Liste zum Verwalten der Spielfiguren
+        List<Spielfigur> spielfiguren = new ArrayList<>();
+        initSpielfiguren(spielfiguren);
 
-// Klasse MonopolySpiel
-	public class MonopolySpiel {
-		private List<Spielfigur> spielfiguren;
+        // Initiale Spielfiguren anzeigen
+        System.out.println("Initiale Spielfiguren:");
+        zeigeSpielfiguren(spielfiguren);
 
-		public MonopolySpiel() {
-			spielfiguren = new ArrayList<>();
-			initSpielfiguren();
-		}
+        // Spielfigur von Position 1 zu Position 3 verschieben
+        System.out.println("\nVerschiebe Spielfigur von Position 1 zu Position 3:");
+        verschiebeSpielfigur(spielfiguren, 0, 2);
+        zeigeSpielfiguren(spielfiguren);
 
-		// Initialisiert die 6 verschiedenen Spielfiguren
-		private void initSpielfiguren() {
-			spielfiguren.add(new Spielfigur("Regenwurm"));
-			spielfiguren.add(new Spielfigur("Paramecium"));
-			spielfiguren.add(new Spielfigur("Heuschrecke"));
-			spielfiguren.add(new Spielfigur("Fisch"));
-			spielfiguren.add(new Spielfigur("Seestern"));
-			spielfiguren.add(new Spielfigur("Schwein"));
-		}
+        // Spielfigur von Position 5 zu Position 1 verschieben
+        System.out.println("\nVerschiebe Spielfigur von Position 5 zu Position 1:");
+        verschiebeSpielfigur(spielfiguren, 4, 0);
+        zeigeSpielfiguren(spielfiguren);
 
-		// Methode zum Verschieben einer Spielfigur von einer Position zu einer anderen
-		public void verschiebeSpielfigur(int vonIndex, int zuIndex) {
-			if (vonIndex < 0 || vonIndex >= spielfiguren.size() || zuIndex < 0 || zuIndex >= spielfiguren.size()) {
-				System.out.println("Ungültiger Index. Bitte geben Sie einen gültigen Index ein.");
-				return;
-			}
-			Spielfigur figur = spielfiguren.remove(vonIndex);
-			spielfiguren.add(zuIndex, figur);
-		}
+        // Beispielhafte Verwendung der Spielfigur und Würfeln
+        Spielfigur figur = spielfiguren.get(0); // Erste Spielfigur
+        Würfel würfel = new Würfel();
+        würfel.würfel();
+        figur.felderVorrücken(würfel);
+    }
 
-		// Methode zum Anzeigen aller Spielfiguren
-		public void zeigeSpielfiguren() {
-			for (int i = 0; i < spielfiguren.size(); i++) {
-				System.out.println((i + 1) + ". " + spielfiguren.get(i).getName());
-			}
-		}
+    // Initialisiert die 6 verschiedenen Spielfiguren
+    private static void initSpielfiguren(List<Spielfigur> spielfiguren) {
+        spielfiguren.add(new Spielfigur("Regenwurm"));
+        spielfiguren.add(new Spielfigur("Paramecium"));
+        spielfiguren.add(new Spielfigur("Heuschrecke"));
+        spielfiguren.add(new Spielfigur("Fisch"));
+        spielfiguren.add(new Spielfigur("Seestern"));
+        spielfiguren.add(new Spielfigur("Schwein"));
+    }
 
-		public static void main(String[] args) {
-			MonopolySpiel spiel = new MonopolySpiel();
+    // Methode zum Verschieben einer Spielfigur von einer Position zu einer anderen
+    private static void verschiebeSpielfigur(List<Spielfigur> spielfiguren, int vonIndex, int zuIndex) {
+        if (vonIndex < 0 || vonIndex >= spielfiguren.size() || zuIndex < 0 || zuIndex >= spielfiguren.size()) {
+            System.out.println("Ungültiger Index. Bitte geben Sie einen gültigen Index ein.");
+            return;
+        }
+        Spielfigur figur = spielfiguren.remove(vonIndex);
+        spielfiguren.add(zuIndex, figur);
+    }
 
-			System.out.println("Initiale Spielfiguren:");
-			spiel.zeigeSpielfiguren();
-
-			System.out.println("\nVerschiebe Spielfigur von Position 1 zu Position 3:");
-			spiel.verschiebeSpielfigur(0, 2);
-			spiel.zeigeSpielfiguren();
-
-			System.out.println("\nVerschiebe Spielfigur von Position 5 zu Position 1:");
-			spiel.verschiebeSpielfigur(4, 0);
-			spiel.zeigeSpielfiguren();
-		}
-	}
+    // Methode zum Anzeigen aller Spielfiguren
+    private static void zeigeSpielfiguren(List<Spielfigur> spielfiguren) {
+        for (int i = 0; i < spielfiguren.size(); i++) {
+            System.out.println((i + 1) + ". " + spielfiguren.get(i).getName());
+        }
+    }
 }
