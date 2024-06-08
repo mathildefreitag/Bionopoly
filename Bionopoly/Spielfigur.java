@@ -1,5 +1,5 @@
 
-package bionopoly;
+package Bionopoly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,19 @@ import java.util.List;
 public class Spielfigur {
     // Name deklarieren
     private String name;
+    private int intelligenz;
+    private boolean pleite;
+    private Feld aktuellesFeld;
 
     // Konstruktor zum Initialisieren des Namens
     public Spielfigur(String name) {
         this.name = name;
+        
+        
+        this.intelligenz = 1500; // Startkapital
+        this.pleite = false;
+        
+        
     }
 
     // Methode zum Aufrufen des Namens
@@ -75,5 +84,33 @@ public class Spielfigur {
         for (int i = 0; i < spielfiguren.size(); i++) {
             System.out.println((i + 1) + ". " + spielfiguren.get(i).getName());
         }
+    }
+    
+    
+    
+    
+    public int getIntelligenz() {
+        return intelligenz;
+    }
+
+    public void setIntelligenz(int intelligenz) {
+        this.intelligenz = intelligenz;
+    }
+    
+
+    public boolean isPleite() {
+        return pleite;
+    }
+
+    public void setPleite(boolean pleite) {
+        this.pleite = pleite;
+    }
+    
+    public Feld getAktuellesFeld() {
+        return aktuellesFeld;
+    }
+
+    public void setAktuellesFeld(Feld aktuellesFeld) {
+        this.aktuellesFeld = aktuellesFeld;
     }
 }

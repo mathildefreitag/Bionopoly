@@ -13,6 +13,8 @@ package Bionopoly;
 	    private int rotation;
 	    private int preis;
 	    private int miete;
+	    private Spielfigur besitzer;
+	    private int index;
 
 	    public Feld(int x, int y, int width, int height, String name, int rotation) {
 	        super(name); // Setze den Text des Labels
@@ -25,12 +27,12 @@ package Bionopoly;
 	        setHorizontalAlignment(SwingConstants.CENTER);
 	        setVerticalAlignment(SwingConstants.CENTER);
 	    }
-	    public void setPrice(int price) {
+	    public void setPreis(int price) {
 	        this.preis = price;
 	    }
 
 	    // Neue Methode zum Abrufen des Preises
-	    public int getPrice() {
+	    public int getPreis() {
 	        return preis;
 	    }
 	    
@@ -41,6 +43,16 @@ package Bionopoly;
 	    // Methode zum Abrufen der Miete
 	    public int getMiete() {
 	        return miete;
+	    }
+	    public Spielfigur getBesitzer() {
+	        return besitzer;
+	    }
+
+	    public void setBesitzer(Spielfigur besitzer) {
+	        this.besitzer = besitzer;
+	    }
+	    public int getIndex() {
+	        return index;
 	    }
 
 	    @Override
