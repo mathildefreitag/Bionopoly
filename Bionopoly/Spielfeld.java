@@ -1,4 +1,4 @@
-package Bionopoly;
+package bionopoly;
 
 import java.util.ArrayList;
 import java.awt.Color;
@@ -172,71 +172,6 @@ public class Spielfeld extends JPanel {
         }
     }
     
-    // Methode zur Überprüfung, ob ein Feld einen Besitzer hat
-    public boolean hatBesitzer(Feld feld) {
-        return feld.getBesitzer() != null;
-    }
-
-    // Methode, um ein Feld zu kaufen, wenn es noch keinen Besitzer hat
-    public void feldKaufen(Feld feld, Spielfigur spieler) {
-    	if (!hatBesitzer(feld) && !unkaufbareFelder.contains(feld)) {
-            System.out.println("Möchtest du" + feld.getPreis() + " Intelligenz in das Modul " + feld.getName() + " investieren? (Ja/Nein)"); // hier müssen buttons draus gemacht werden
-            
-            Scanner scanner = new Scanner(System.in);// das muss ersetzt werden sobald wir die buttons erstellt haben
-            String antwort = scanner.nextLine();
-            
-            
-            if (antwort.equalsIgnoreCase("ja")) { // hier muss dann vermutlich auch etwas verändert werden soblad der Button erstellt wurde
-                if (spieler.getIntelligenz() >= feld.getPreis()) {
-                    spieler.setIntelligenz(spieler.getIntelligenz() - feld.getPreis());
-                    feld.setBesitzer(spieler);
-                    System.out.println(spieler.getName() + " hat " + feld.getName() + " für " + feld.getPreis() + " Intelligenz erhalten.");
-                } 
-                else {
-                    System.out.println(spieler.getName() + " hat nicht genug Intelligenz, um " + feld.getName() + " zu belegen.");
-                }
-            } 
-            else {
-                System.out.println("Du hast entschieden, " + feld.getName() + " zu schieben.");
-            }
-        } 
-    	else {
-            System.out.println(feld.getName() + " kann nicht erhalten werden.");
-        }
-    }
-
-    // Methode, um die Miete für ein Feld zu zahlen
-    public void mieteZahlen(Feld feld, Spielfigur spieler) {
-        if (hatBesitzer(feld) && !feld.getBesitzer().equals(spieler)) {
-            int miete = feld.getMiete();
-            Spielfigur besitzer = feld.getBesitzer();
-            if (spieler.getIntelligenz() >= miete) {
-                spieler.setIntelligenz(spieler.getIntelligenz() - miete);
-                besitzer.setIntelligenz(besitzer.getIntelligenz() + miete);
-                System.out.println(spieler.getName() + " hat " + miete + " Intelligenz an " + besitzer.getName() + " für Nachhilfe in dem Modul " + feld.getName() + " gegeben.");
-            } 
-            else {
-                System.out.println(spieler.getName() + " hat nicht genug Intelligenz, um die Nachilfe für das Modul " + feld.getName() + " zu verstehen. ");
-            }
-            
-            // Behandlung spezifischer Ereignisse für bestimmte Felder
-            if (feld.getName().equalsIgnoreCase("O-Woche")) {
-                spieler.setIntelligenz(spieler.getIntelligenz() - 200);
-                System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund von zu hohem Alkoholkonsum verloren.");
-            } 
-            else if (feld.getName().equalsIgnoreCase("Bachelorabschlussparty")) {
-                spieler.setIntelligenz(spieler.getIntelligenz() - 200);
-                System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund zu starker Feierns auf der Bachelorabschlussparty verloren.");
-            } 
-        }
-    }
-    
- // Methode zur Überprüfung, ob ein Spieler pleite ist
-    public void spielerPleite(Spielfigur spieler) {
-        System.out.println(spieler.getName() + " hat all seine Intelligenz verloren und muss das Bionik Studium schmeißen. ");
-        spieler.setPleite(true);
-    }
-    
     public boolean isPasch(int würfel1, int würfel2) {
         return würfel1 == würfel2;
     }
@@ -246,22 +181,22 @@ public class Spielfeld extends JPanel {
         würfel.würfel();
         int augensumme = würfel.getAugensumme();
         
-        // Feld 20: Urlaubssemester
+        //Feld 20: Urlaubssemester
         if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Urlaubssemester")) {
             System.out.println(spieler.getName() + " genießt das Urlaubssemester und kann einfach mal nichts tun.");
             return;
         }
         
-        // Feld 30: Prüfug nicht bestanden (Spieler wird zu Feld 10 verbannt)
+        //Feld 30: Prüfug nicht bestanden (Spieler wird zu Feld 10 verbannt)
         if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Prüfung nicht bestanden")) {
             spieler.setAktuellesFeld(feldAmOrt(10));
             System.out.println(spieler.getName() + " wurde zur Nachprüfung auf Feld 10 verbannt.");
             return;
         }
         
-        // Feld 10: Sonderregelung für Rückkehr ---> bin mir nicht sicher ob das aktuell nur gilt wenn man von Feld 30 kommt bzw 3x einen Pasch gewürfelt hat oder einfach allgemein für das feld
+        //Feld 10: Sonderregelung für Rückkehr ---> bin mir nicht sicher ob das aktuell nur gilt wenn man von Feld 30 kommt bzw 3x einen Pasch gewürfelt hat oder einfach allgemein für das feld
         if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Nachprüfung/ Klausureinsicht")) {
-            // Spieler muss innerhalb der nächsten 3 Runden einen Pasch würfeln
+            //Spieler muss innerhalb der nächsten 3 Runden einen Pasch würfeln
         	anzahlPasche = 0;
             for (int i = 0; i < 3; i++) {
                 würfel.würfel();
@@ -275,22 +210,22 @@ public class Spielfeld extends JPanel {
                     }
                 } 
                 else {
-                    break; // Spieler hat keinen Pasch gewürfelt
+                    break; //Spieler hat keinen Pasch gewürfelt
                 }
             }
             
-            // Spieler hat keinen Pasch gewürfelt und muss 50 Intelligenz Strafe zahlen
+            //Spieler hat keinen Pasch gewürfelt und muss 50 Intelligenz Strafe zahlen
             spieler.setIntelligenz(spieler.getIntelligenz() - 50);
             System.out.println(spieler.getName() + " hat keinen Pasch gewürfelt und muss 50 Intelligenz Strafe zahlen.");
         }
-        // Normale Bewegung basierend auf der Augensumme
+        //Normale Bewegung basierend auf der Augensumme
         int neuesFeldIndex = (spieler.getAktuellesFeld().getIndex() + augensumme) % alleFelder.size();
         Feld neuesFeld = alleFelder.get(neuesFeldIndex);
         spieler.setAktuellesFeld(neuesFeld);
         System.out.println(spieler.getName() + " hat " + augensumme + " gewürfelt und ist auf " + neuesFeld.getName() + " gelandet.");
     }
     
-    // Methode, um zu überprüfen, ob der Spieler Felder zu verkaufen hat
+    //Methode, um zu überprüfen, ob der Spieler Felder zu verkaufen hat
     public boolean spielerHatFelderZuVerkaufen(Spielfigur spieler) {
         for (Feld feld : alleFelder) {
             if (feld.getBesitzer() != null && feld.getBesitzer().equals(spieler)) {
@@ -300,18 +235,18 @@ public class Spielfeld extends JPanel {
         return false;
     }
 
-    // Methode, um ein Feld zu verkaufen
+    //Methode, um ein Feld zu verkaufen
     public void feldVerkaufen(Spielfigur spieler) {
         for (Feld feld : alleFelder) {
             if (feld.getBesitzer() != null && feld.getBesitzer().equals(spieler)) {
-                spieler.setIntelligenz(spieler.getIntelligenz() + feld.getPreis() / 2); // Verkauf für die Hälfte des Preises
+                spieler.setIntelligenz(spieler.getIntelligenz() + feld.getPreis() / 2); //Verkauf für die Hälfte des Preises
                 feld.setBesitzer(null);
                 System.out.println(spieler.getName() + " hat im Gegenzug für " + (feld.getPreis() / 2) + " Intelligenz das Modul "+ feld.getName() + " abgebrochen");
                 return;
             }
         }
     }
-    
+   
     
     public void anzeigenAktuellerStand() {
         for (Spielfigur spieler : spielerListe) {
