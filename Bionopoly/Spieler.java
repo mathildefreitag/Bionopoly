@@ -48,7 +48,7 @@ public class Spieler {
     }
     
     
-    public boolean isPleite() {
+    public boolean istPleite() {
         return pleite;
     }
 
