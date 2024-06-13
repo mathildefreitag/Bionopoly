@@ -10,9 +10,9 @@ import java.util.Scanner; //brauchen wir später vermutlich nicht mehr, hab das 
 
 public class Spielfeld extends JPanel {
 
-    // private Spielbrett spielbrett;
-    // private Spielfigur charakter;
-    // private Spieler[] spieler;
+    //private Spielbrett spielbrett;
+    //private Spielfigur charakter;
+    //private Spieler[] spieler;
     private Spielfigur intelligenz;
 
     static int miete;
@@ -101,24 +101,24 @@ public class Spielfeld extends JPanel {
             int x, y;
             int rotation = 90;
 
-            if (0 < i && i < 10) { // Felder 00 bis 09 auf der linken Seite
+            if (0 < i && i < 10) { //Felder 00 bis 09 auf der linken Seite
                 x = 390;
                 y = 655 - 64 * i;
             } 
-            else if (10 < i && i < 20) { // Felder 10 bis 19 oben
+            else if (10 < i && i < 20) { //Felder 10 bis 19 oben
                 x = 408 + 64 * (i - 10);
                 y = 0;
                 rotation = 180; // Text um 90° drehen, damit er nach außen zeigt
             } 
-            else if (20 < i && i < 30) { // Felder 20 bis 29 rechts
+            else if (20 < i && i < 30) { //Felder 20 bis 29 rechts
                 x = 1068;
                 y = 15 + 64 * (i - 20);
                 rotation = -90;
             } 
-            else if (30 < i && i < 40) { // Felder 31 bis 39 unten
+            else if (30 < i && i < 40) { //Felder 31 bis 39 unten
                 x = 1049 - 64 * (i - 30);
                 y = 670;
-                rotation = 0; // Text um 90° drehen, damit er nach außen zeigt
+                rotation = 0; //Text um 90° drehen, damit er nach außen zeigt
             } 
             else {
                 continue;
@@ -138,21 +138,21 @@ public class Spielfeld extends JPanel {
             int z, a;
             int rotationb = 90;
 
-            if (i == 0) { // Feld 00
+            if (i == 0) { //Feld 00
                 z = 372;
                 a = 670;
             }   
-            else if (i == 10) { // Feld 10
+            else if (i == 10) { //Feld 10
                 z = 372;
                 a = 0;
                 rotationb = 180;
             } 
-            else if (i == 20) { // Feld 20
+            else if (i == 20) { //Feld 20
                 z = 1050;
                 a = 0;
                 rotationb = -90;
             } 
-            else if (i == 30) { // Feld 30
+            else if (i == 30) { //Feld 30
                 z = 1050;
                 a = 670;
                 rotationb = 0;
