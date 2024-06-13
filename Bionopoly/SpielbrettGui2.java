@@ -10,7 +10,7 @@ import bionopoly.Würfel;
 
 public class SpielbrettGui2 extends JFrame {
 	 private Würfel würfel = new Würfel();
-	//SpielerGui und SpielbrettGui zusammengeführt
+	//SpielerGui und SpielbrettGui zusammengeführt, Probleme behoben, deswegen 2
     public SpielbrettGui2 (int anzahlSpieler) {
         setTitle("Bionopoly");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
