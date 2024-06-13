@@ -70,6 +70,7 @@ public class SpielfigurGui extends JFrame {
         JLabel label = spielfigurenLabels.get(name);
         if (label != null) {
             label.setLocation(x, y);
+            //alternativ -> label.setBounds(x, y, label.getWidth(), label.getHeight());
         } else {
             System.out.println("Spielfigur mit Namen " + name + " nicht gefunden.");
         }
