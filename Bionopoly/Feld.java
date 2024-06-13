@@ -1,4 +1,4 @@
-package Bionopoly;
+package bionopoly;
 
 	import javax.swing.JLabel;
 	import java.awt.Color;
@@ -13,7 +13,7 @@ package Bionopoly;
 	    private int rotation;
 	    private int preis;
 	    private int miete;
-	    private Spielfigur besitzer;
+	    private Spieler besitzer;
 	    private int index;
 
 	    public Feld(int x, int y, int width, int height, String name, int rotation) {
@@ -44,11 +44,11 @@ package Bionopoly;
 	    public int getMiete() {
 	        return miete;
 	    }
-	    public Spielfigur getBesitzer() {
+	    public Spieler getBesitzer() {
 	        return besitzer;
 	    }
 
-	    public void setBesitzer(Spielfigur besitzer) {
+	    public void setBesitzer(Spieler besitzer) {
 	        this.besitzer = besitzer;
 	    }
 	    public int getIndex() {
