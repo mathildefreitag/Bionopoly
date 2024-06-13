@@ -106,7 +106,7 @@ public class Spieler {
             } 
             else if (feld.getName().equalsIgnoreCase("Bachelorabschlussparty")) {
                 spieler.setIntelligenz(spieler.getIntelligenz() - 200);
-                System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund zu starker Feierns auf der Bachelorabschlussparty verloren.");
+                System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund zu starkem Feierns auf der Bachelorabschlussparty verloren.");
             } 
         }
     }
@@ -118,3 +118,6 @@ public class Spieler {
     }
     
 }
+
+
+
