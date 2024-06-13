@@ -1,4 +1,4 @@
-package Bionopoly;
+package bionopoly;
 
 public class Währung {
     
@@ -8,13 +8,20 @@ public class Währung {
     private int überStart;
     private int transaktion;
 
+    
+    public Währung() {
+    	
+    }
     // Konstruktor
-    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int startgeld, int überStart, int transaktion) {
+    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int überStart, int transaktion) {
         this.feld = feld;
         this.spieler = spieler;
-        this.startgeld = startgeld;
         this.überStart = überStart;
         this.transaktion = transaktion;
+    }
+    
+    public void Startgeld(int startgeld) {
+    	this.startgeld = startgeld;
     }
 
     // Getter und Setter für 'feld'
