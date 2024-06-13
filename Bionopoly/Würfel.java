@@ -16,12 +16,12 @@ public class Würfel {
 			würfel2 = rand.nextInt(6) + 1; //Zufallszahl für würfel2 erstellen (initialisieren und deklarieren)
 			this.augensumme = würfel1 + würfel2;//Augensumme der beiden Würfel addieren
 			
-			//(Ausgabe der Werte)
+			/*(Ausgabe der Werte)
 			System.out.print("Würfel 1: " + würfel1);
 			System.out.println();
 			System.out.print("Würfel 2: " + würfel2);
 			System.out.println();
-			System.out.print("Augensumme: " + augensumme + "\n");
+			System.out.print("Augensumme: " + augensumme + "\n");*/
 			
 		}
 	}
@@ -42,4 +42,5 @@ public class Würfel {
     public boolean istPasch() {
         return würfel1 == würfel2;
     }
+	
 }
