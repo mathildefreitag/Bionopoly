@@ -1,6 +1,6 @@
 package bionopoly;
 
-import java.util.*; // Package damit man später Zufallszahlen bekommt
+import java.util.*; //Package damit man später Zufallszahlen bekommt
 
 public class Würfel {
 	private int augensumme;
@@ -16,31 +16,30 @@ public class Würfel {
 			würfel2 = rand.nextInt(6) + 1; //Zufallszahl für würfel2 erstellen (initialisieren und deklarieren)
 			this.augensumme = würfel1 + würfel2;//Augensumme der beiden Würfel addieren
 			
-			/*(Ausgabe der Werte)
+			//(Ausgabe der Werte)
 			System.out.print("Würfel 1: " + würfel1);
 			System.out.println();
 			System.out.print("Würfel 2: " + würfel2);
 			System.out.println();
-			System.out.print("Augensumme: " + augensumme + "\n");*/
+			System.out.print("Augensumme: " + augensumme + "\n");
 			
 		}
 	}
-	// Methode zum Abrufen der Augensumme
+	//Methode zum Abrufen der Augensumme
     public int getAugensumme() {
         return augensumme;
     }
-    // Methode zum Abrufen der Augenzahl des ersten Würfels
+    //Methode zum Abrufen der Augenzahl des ersten Würfels
     public int getWürfel1() {
         return würfel1;
     }
 
-    // Methode zum Abrufen der Augenzahl des zweiten Würfels
+    //Methode zum Abrufen der Augenzahl des zweiten Würfels
     public int getWürfel2() {
         return würfel2;
     }
-    // Methode zur Erkennung eines Paschs
+    //Methode zur Erkennung eines Paschs
     public boolean istPasch() {
         return würfel1 == würfel2;
     }
-	
 }
