@@ -2,11 +2,14 @@ package gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import bionopoly.Würfel;
 
 public class SpielbrettGui2 extends JFrame {
-
+	 private Würfel würfel = new Würfel();
 	//SpielerGui und SpielbrettGui zusammengeführt
     public SpielbrettGui2 (int anzahlSpieler) {
         setTitle("Bionopoly");
@@ -48,6 +51,7 @@ public class SpielbrettGui2 extends JFrame {
             }
         }
 
+
         // Container für die Spieler Panels und zusätzliches Panel Ausrichtung
         leftContainer.add(leftPanel, BorderLayout.CENTER);
         leftContainer.add(bottomPanelLeft, BorderLayout.SOUTH);
@@ -64,7 +68,7 @@ public class SpielbrettGui2 extends JFrame {
         boardPanel.setPreferredSize(new Dimension(400, 400));
 
         //Pfad zum PNG-Bild
-        String imagePath = "C:\\Users\\tcool\\OneDrive\\Bilder\\Studium\\spielbrett.png";
+        String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
 
         //ImageIcon erstellen und dem JLabel zuweisen
         ImageIcon icon = new ImageIcon(imagePath);
@@ -78,6 +82,38 @@ public class SpielbrettGui2 extends JFrame {
   
         boardPanel.add(label);
         add(boardPanel, BorderLayout.CENTER);
+     // Erstelle Würfel GUI
+        createDicePanel(bottomPanelRight);
+    }
+
+    // Methode zur Erstellung des Würfel Panels
+    private void createDicePanel(JPanel panel) {
+        JPanel dicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        dicePanel.setPreferredSize(new Dimension(100, 50));
+        
+        JLabel dice1 = new JLabel("1", SwingConstants.CENTER);
+        dice1.setFont(new Font("Arial", Font.BOLD, 24));
+        dice1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        JLabel dice2 = new JLabel("1", SwingConstants.CENTER);
+        dice2.setFont(new Font("Arial", Font.BOLD, 24));
+        dice2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        JButton rollButton = new JButton("Würfeln");
+        rollButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                würfel.würfel();  // Aufrufen der wuerfel-Methode
+                dice1.setText(String.valueOf(würfel.getWürfel1()));
+                dice2.setText(String.valueOf(würfel.getWürfel2()));
+            }
+        });
+        
+        dicePanel.add(dice1);
+        dicePanel.add(dice2);
+        
+        panel.add(dicePanel, new GridBagConstraints());
+        panel.add(rollButton, new GridBagConstraints());
     }
     //Hinzufügen "Spielernamen"
     private JPanel createPlayerPanel(String playerName) {
@@ -87,6 +123,4 @@ public class SpielbrettGui2 extends JFrame {
         playerPanel.add(new JLabel(playerName));
         return playerPanel;
     }
-
-    
 }
