@@ -25,36 +25,11 @@ public class SpielfigurGui extends JFrame {
 
         spielfeld = new JPanel();
         spielfeld.setLayout(null);
-        spielfigurenLabels = new HashMap<>();
         int startfeld = 0;
 
         
         spielfeld = new Spielfeld(50, 50, 612, 612);
-        spielfeld.setLayout(null); // Layout sollte nicht null sein, besser wäre eine Layout-Manager zu verwenden
-        spielfigurenLabels = new HashMap<>();
-        
-       A 
-        // Beispielhafte Spielfiguren hinzufügen
-        /*addSpielfigur(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0), spielfeld), "regenwurm.png");
-        addSpielfigur(new Spielfigur("Paramecium", spielfeld.feldAmOrt(0), spielfeld), "paramecium.png");
-        addSpielfigur(new Spielfigur("Heuschrecke", spielfeld.feldAmOrt(0), spielfeld), "heuschrecke.png");
-        addSpielfigur(new Spielfigur("Fisch", spielfeld.feldAmOrt(0), spielfeld), "fisch.png");
-        addSpielfigur(new Spielfigur("Seestern", spielfeld.feldAmOrt(0), spielfeld), "seestern.png");
-        addSpielfigur(new Spielfigur("Schwein", spielfeld.feldAmOrt(0), spielfeld), "schwein.png");*/
 
-     // Spielfiguren hinzufügen
-        /*Spielfigur regenwurm = new Spielfigur("Regenwurm");
-        addSpielfigur(regenwurm, "regenwurm.png");
-        Spielfigur paramecium = new Spielfigur("Paramecium");
-        addSpielfigur(paramecium, "paramecium.png");
-        Spielfigur heuschrecke = new Spielfigur("Heuschrecke");
-        addSpielfigur(heuschrecke, "heuschrecke.png");
-        Spielfigur fisch = new Spielfigur("Fisch");
-        addSpielfigur(fisch, "fisch.png");
-        Spielfigur seestern = new Spielfigur("Seestern");
-        addSpielfigur(seestern, "seestern.png");
-        Spielfigur schwein = new Spielfigur("Schwein");
-        addSpielfigur(schwein, "schwein.png");*/
 
         String imagePath = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\fisch.png";
         String imagePath1 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\regenwurm.png";
@@ -72,9 +47,6 @@ public class SpielfigurGui extends JFrame {
                 würfel.würfel();
                 int augensumme = würfel.getAugensumme();
                 System.out.println("Gewürfelte Augensumme: " + augensumme);
-
-                // Beispiel: Bewege die Spielfigur "Regenwurm"
-                verschiebeSpielfigur("Regenwurm", augensumme * 10, augensumme * 10);
             }
         });
 
@@ -83,7 +55,7 @@ public class SpielfigurGui extends JFrame {
     }
 
     private void addSpielfigur(Spielfigur spielfigur, String bildDatei) {
-        // Überprüfe, ob die Ressource vorhanden ist
+        //Überprüfen, ob die Ressource vorhanden ist
         java.net.URL bildURL = getClass().getResource("/" + bildDatei);
         if (bildURL == null) {
             System.out.println("Bilddatei nicht gefunden: " + bildDatei);
@@ -93,7 +65,7 @@ public class SpielfigurGui extends JFrame {
         ImageIcon icon = new ImageIcon(bildURL);
         JLabel label = new JLabel(icon);
         label.setBounds(50, 50, icon.getIconWidth(), icon.getIconHeight());
-        spielfeld.feldAmOrt(spielfigur.getPosition()).add(label); // Füge das Label dem richtigen Feld hinzu
+        spielfeld.feldAmOrt(spielfigur.getPosition()).add(label); //Füge das Label dem richtigen Feld hinzu
         spielfeld.add(label);
         spielfigurenLabels.put(spielfigur.getName(), label);
     }
@@ -102,8 +74,8 @@ public class SpielfigurGui extends JFrame {
         JLabel label = spielfigurenLabels.get(name);
         if (label != null) {
             label.setLocation(x, y);
-            //alternativ -> label.setBounds(x, y, label.getWidth(), label.getHeight());
-        } else {
+        } 
+        else {
             System.out.println("Spielfigur mit Namen " + name + " nicht gefunden.");
         }
     }
