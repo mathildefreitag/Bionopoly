@@ -6,7 +6,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class SpielbrettGui2 extends JFrame {
-//panels in Verbindung mit image path funktioniert noch nicht
+
 	//SpielerGui und SpielbrettGui zusammengeführt
     public SpielbrettGui2 () {
         setTitle("Bionopoly");
@@ -17,7 +17,7 @@ public class SpielbrettGui2 extends JFrame {
         // Spieler Panels Container
         JPanel leftContainer = new JPanel();
         leftContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des linken Container
-        leftContainer.setPreferredSize(new Dimension(378, getHeight()));
+        leftContainer.setPreferredSize(new Dimension(380, getHeight()));
 
         JPanel rightContainer = new JPanel();
         rightContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des rechten Conatainer
@@ -105,8 +105,8 @@ public class SpielbrettGui2 extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            SpielerGui spielerGui = new SpielerGui();
-            spielerGui.setVisible(true);
+            SpielbrettGui2 spielbrettGui2 = new SpielbrettGui2();
+			spielbrettGui2.setVisible(true);
         });
     }
 }
