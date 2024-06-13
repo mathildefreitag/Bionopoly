@@ -21,7 +21,7 @@ public class SpielbrettGui2 extends JFrame {
 
         JPanel rightContainer = new JPanel();
         rightContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des rechten Conatainer
-        rightContainer.setPreferredSize(new Dimension(378, getHeight()));
+        rightContainer.setPreferredSize(new Dimension(376, getHeight()));
 
         // Spieler Panels
         JPanel leftPanel = new JPanel();
@@ -75,7 +75,7 @@ public class SpielbrettGui2 extends JFrame {
   
         boardPanel.add(label);
         add(boardPanel, BorderLayout.CENTER);
-    }
+}
     //Hinzufügen "Spielernamen"
     private JPanel createPlayerPanel(String playerName) {
         JPanel playerPanel = new JPanel();
