@@ -59,15 +59,6 @@ public class SpielbrettGui2 extends JFrame {
         // Spielbrett als Bild mittig einfügen
         JPanel boardPanel = new JPanel();
         boardPanel.setPreferredSize(new Dimension(400, 400));
-        /*String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image scaledImage = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(scaledImage));*/
-        //Größe für das Bild festlegen (quadratisch)
-        int imageSize = 780; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
-
-        JFrame frame = new JFrame("Bildanzeige");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Pfad zum PNG-Bild
         String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
@@ -75,23 +66,14 @@ public class SpielbrettGui2 extends JFrame {
         //ImageIcon erstellen und dem JLabel zuweisen
         ImageIcon icon = new ImageIcon(imagePath);
         //Bildgröße anpassen
+        int imageSize = 780; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
         ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, java.awt.Image.SCALE_SMOOTH));
         JLabel label = new JLabel(scaledIcon);
 
         //Rahmen hinzufügen
         label.setBorder(new EmptyBorder(0, 0, 0, 0)); //0 Pixel Abstand zum Rahmen
-
-        //Layout-Manager zuweisen
-        frame.setLayout(new FlowLayout());
-
-        //JLabel zum Frame hinzufügen
-        frame.add(label);
-
-        frame.pack();
-        frame.setVisible(true);
-    
+  
         boardPanel.add(label);
-        
         add(boardPanel, BorderLayout.CENTER);
     }
     //Hinzufügen "Spielernamen"
