@@ -1,126 +1,40 @@
 package gui;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import bionopoly.Würfel;
+//import java.awt.Dimension;
+import java.awt.FlowLayout;
 
-public class SpielbrettGui2 extends JFrame {
-	 private Würfel würfel = new Würfel();
-	//SpielerGui und SpielbrettGui zusammengeführt
-    public SpielbrettGui2 (int anzahlSpieler) {
-        setTitle("Bionopoly");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setLayout(new BorderLayout());
+public class SpielbrettGui {
 
-        // Spieler Panels Container
-        JPanel leftContainer = new JPanel();
-        leftContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des linken Container
-        leftContainer.setPreferredSize(new Dimension(380, getHeight()));
+	    public static void main(String[] args) {
+	        //Größe für das Bild festlegen (quadratisch)
+	        int imageSize = 780; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
 
-        JPanel rightContainer = new JPanel();
-        rightContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des rechten Conatainer
-        rightContainer.setPreferredSize(new Dimension(376, getHeight()));
+	        JFrame frame = new JFrame("Bildanzeige");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Spieler Panels
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(3, 1)); // 3 Zeilen, 1 Spalte ohne Abstände
-        leftPanel.setPreferredSize(new Dimension(200, 300)); // Maße der Kästen
+	        //Pfad zum PNG-Bild
+	        String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(3, 1)); // 3 Zeilen, 1 Spalte mit Abständen
-        rightPanel.setPreferredSize(new Dimension(200, 300)); // Maße der Kästen
+	        //ImageIcon erstellen und dem JLabel zuweisen
+	        ImageIcon icon = new ImageIcon(imagePath);
+	        //Bildgröße anpassen
+	        ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, java.awt.Image.SCALE_SMOOTH));
+	        JLabel label = new JLabel(scaledIcon);
 
-        // Zusätzliches Panel unten
-        JPanel bottomPanelLeft = new JPanel();
-        bottomPanelLeft.setPreferredSize(new Dimension(200, 300)); //Höhe des zusätzlichen Panels
+	        //Rahmen hinzufügen
+	        label.setBorder(new EmptyBorder(0, 0, 0, 0)); //0 Pixel Abstand zum Rahmen
 
-        JPanel bottomPanelRight = new JPanel();
-        bottomPanelRight.setPreferredSize(new Dimension(200, 300)); //Höhe des zusätzlichen Panels
+	        //Layout-Manager zuweisen
+	        frame.setLayout(new FlowLayout());
 
-        // Spieler initialisieren
-        for (int i = 1; i <= anzahlSpieler; i++) {
-            if (i <= 3) {
-                leftPanel.add(createPlayerPanel("Spieler " + i));
-            } else {
-                rightPanel.add(createPlayerPanel("Spieler " + i));
-            }
-        }
+	        //JLabel zum Frame hinzufügen
+	        frame.add(label);
 
-
-        // Container für die Spieler Panels und zusätzliches Panel Ausrichtung
-        leftContainer.add(leftPanel, BorderLayout.CENTER);
-        leftContainer.add(bottomPanelLeft, BorderLayout.SOUTH);
-
-        rightContainer.add(rightPanel, BorderLayout.CENTER);
-        rightContainer.add(bottomPanelRight, BorderLayout.SOUTH);
-
-        // Panels in Container einfügen
-        add(leftContainer, BorderLayout.WEST);
-        add(rightContainer, BorderLayout.EAST);
-
-        // Spielbrett als Bild mittig einfügen
-        JPanel boardPanel = new JPanel();
-        boardPanel.setPreferredSize(new Dimension(400, 400));
-
-        //Pfad zum PNG-Bild
-        String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
-
-        //ImageIcon erstellen und dem JLabel zuweisen
-        ImageIcon icon = new ImageIcon(imagePath);
-        //Bildgröße anpassen
-        int imageSize = 780; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
-        ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, java.awt.Image.SCALE_SMOOTH));
-        JLabel label = new JLabel(scaledIcon);
-
-        //Rahmen hinzufügen
-        label.setBorder(new EmptyBorder(0, 0, 0, 0)); //0 Pixel Abstand zum Rahmen
-  
-        boardPanel.add(label);
-        add(boardPanel, BorderLayout.CENTER);
-     // Erstelle Würfel GUI
-        createDicePanel(bottomPanelRight);
-    }
-
-    // Methode zur Erstellung des Würfel Panels
-    private void createDicePanel(JPanel panel) {
-        JPanel dicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        dicePanel.setPreferredSize(new Dimension(100, 50));
-        
-        JLabel dice1 = new JLabel("1", SwingConstants.CENTER);
-        dice1.setFont(new Font("Arial", Font.BOLD, 24));
-        dice1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
-        JLabel dice2 = new JLabel("1", SwingConstants.CENTER);
-        dice2.setFont(new Font("Arial", Font.BOLD, 24));
-        dice2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
-        JButton rollButton = new JButton("Würfeln");
-        rollButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                würfel.würfel();  // Aufrufen der wuerfel-Methode
-                dice1.setText(String.valueOf(würfel.getWürfel1()));
-                dice2.setText(String.valueOf(würfel.getWürfel2()));
-            }
-        });
-        
-        dicePanel.add(dice1);
-        dicePanel.add(dice2);
-        
-        panel.add(dicePanel, new GridBagConstraints());
-        panel.add(rollButton, new GridBagConstraints());
-    }
-    //Hinzufügen "Spielernamen"
-    private JPanel createPlayerPanel(String playerName) {
-        JPanel playerPanel = new JPanel();
-        playerPanel.setPreferredSize(new Dimension(200, 100));
-        playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        playerPanel.add(new JLabel(playerName));
-        return playerPanel;
-    }
-}
+	        frame.pack();
+	        frame.setVisible(true);
+	    }
+	}
