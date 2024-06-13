@@ -17,7 +17,7 @@ public class SpielbrettGui2 extends JFrame {
         setSize(800, 600);
         setLayout(new BorderLayout());
 
-        // Spieler Panels Container
+        //Spieler Panels Container
         JPanel leftContainer = new JPanel();
         leftContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des linken Container
         leftContainer.setPreferredSize(new Dimension(380, getHeight()));
@@ -26,23 +26,23 @@ public class SpielbrettGui2 extends JFrame {
         rightContainer.setLayout(new BorderLayout()); //BorderLayout zum Hinzufügen des rechten Conatainer
         rightContainer.setPreferredSize(new Dimension(376, getHeight()));
 
-        // Spieler Panels
+        //Spieler Panels
         JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(3, 1)); // 3 Zeilen, 1 Spalte ohne Abstände
-        leftPanel.setPreferredSize(new Dimension(200, 300)); // Maße der Kästen
+        leftPanel.setLayout(new GridLayout(3, 1)); //3 Zeilen, 1 Spalte ohne Abstände
+        leftPanel.setPreferredSize(new Dimension(200, 300)); //Maße der Kästen
 
         JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(3, 1)); // 3 Zeilen, 1 Spalte mit Abständen
-        rightPanel.setPreferredSize(new Dimension(200, 300)); // Maße der Kästen
+        rightPanel.setLayout(new GridLayout(3, 1)); //3 Zeilen, 1 Spalte mit Abständen
+        rightPanel.setPreferredSize(new Dimension(200, 300)); //Maße der Kästen
 
-        // Zusätzliches Panel unten
+        //Zusätzliches Panel unten
         JPanel bottomPanelLeft = new JPanel();
         bottomPanelLeft.setPreferredSize(new Dimension(200, 300)); //Höhe des zusätzlichen Panels
 
         JPanel bottomPanelRight = new JPanel();
         bottomPanelRight.setPreferredSize(new Dimension(200, 300)); //Höhe des zusätzlichen Panels
 
-        // Spieler initialisieren
+        //Spieler initialisieren
         for (int i = 1; i <= anzahlSpieler; i++) {
             if (i <= 3) {
                 leftPanel.add(createPlayerPanel("Spieler " + i));
@@ -52,14 +52,14 @@ public class SpielbrettGui2 extends JFrame {
         }
 
 
-        // Container für die Spieler Panels und zusätzliches Panel Ausrichtung
+        //Container für die Spieler Panels und zusätzliches Panel Ausrichtung
         leftContainer.add(leftPanel, BorderLayout.CENTER);
         leftContainer.add(bottomPanelLeft, BorderLayout.SOUTH);
 
         rightContainer.add(rightPanel, BorderLayout.CENTER);
         rightContainer.add(bottomPanelRight, BorderLayout.SOUTH);
 
-        // Panels in Container einfügen
+        //Panels in Container einfügen
         add(leftContainer, BorderLayout.WEST);
         add(rightContainer, BorderLayout.EAST);
 
@@ -82,11 +82,11 @@ public class SpielbrettGui2 extends JFrame {
   
         boardPanel.add(label);
         add(boardPanel, BorderLayout.CENTER);
-     // Erstelle Würfel GUI
+     //Würfel GUI erstellen
         createDicePanel(bottomPanelRight);
     }
 
-    // Methode zur Erstellung des Würfel Panels
+    //Methode des Würfel Panels
     private void createDicePanel(JPanel panel) {
         JPanel dicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
         dicePanel.setPreferredSize(new Dimension(100, 50));
@@ -101,9 +101,8 @@ public class SpielbrettGui2 extends JFrame {
         
         JButton rollButton = new JButton("Würfeln");
         rollButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                würfel.würfel();  // Aufrufen der wuerfel-Methode
+                würfel.würfel();  //wuerfel-Methode aufrufen
                 dice1.setText(String.valueOf(würfel.getWürfel1()));
                 dice2.setText(String.valueOf(würfel.getWürfel2()));
             }
