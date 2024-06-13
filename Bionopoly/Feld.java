@@ -17,7 +17,7 @@ package bionopoly;
 	    private int index;
 
 	    public Feld(int x, int y, int width, int height, String name, int rotation) {
-	        super(name); // Setze den Text des Labels
+	        super(name); //Setze den Text des Labels
 	        this.rotation = rotation;
 	        this.preis = 0; 
 	        this.miete = 0;
@@ -31,7 +31,7 @@ package bionopoly;
 	        this.preis = price;
 	    }
 
-	    // Neue Methode zum Abrufen des Preises
+	    //Neue Methode zum Abrufen des Preises
 	    public int getPreis() {
 	        return preis;
 	    }
@@ -40,7 +40,7 @@ package bionopoly;
 	        this.miete = rent;
 	    }
 
-	    // Methode zum Abrufen der Miete
+	    //Methode zum Abrufen der Miete
 	    public int getMiete() {
 	        return miete;
 	    }
@@ -55,7 +55,6 @@ package bionopoly;
 	        return index;
 	    }
 
-	    @Override
 	    protected void paintComponent(Graphics g) {
 	        Graphics2D g2 = (Graphics2D) g;
 	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -67,8 +66,7 @@ package bionopoly;
 	        g2.setTransform(aT);
 	        g2.setClip(oldshape);
 	        super.paintComponent(g);
-	        g2.setTransform(aT); // Restore original transform
+	        g2.setTransform(aT); 
 	    }
 	}
-
 
