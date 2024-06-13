@@ -1,91 +1,91 @@
-package gui;
+package bionopoly;
 
-import bionopoly.Spielfigur;
-import bionopoly.Würfel;
-import bionopoly.Spielfeld;
-import bionopoly.Feld;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+public class Spielfigur {
+    //Namen deklarieren
+    private String name;
+    private int intelligenz;
+    private boolean pleite;
+    private Feld aktuellesFeld;
+    private Spielfeld spielfeld;
 
-public class SpielfigurGui extends JFrame {
-    private Map<String, JLabel> spielfigurenLabels;
-    private JPanel spielfeld;
-    private Spielfeld feldAmOrt;
-
-    public SpielfigurGui() {
-        setTitle("Bionopoly");
-        setSize(800, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        spielfeld = new JPanel();
-        spielfeld.setLayout(null);
-        int startfeld = 0;
-
+    //Konstruktor zum Initialisieren des Namens
+    public Spielfigur(String name, Feld startFeld, Spielfeld spielfeld) {
+        this.name = name;
+        this.intelligenz = 1500; //Startkapital
+        this.pleite = false;
+        this.aktuellesFeld = startFeld;
+        this.spielfeld = spielfeld; //Spielfeld zuweisen
         
-        spielfeld = new Spielfeld(50, 50, 612, 612);
-
-
-        String imagePath = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\fisch.png";
-        String imagePath1 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\regenwurm.png";
-        String imagePath2 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\paramecium.png";
-        String imagePath3 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\schwein.png";
-        String imagePath4 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\heuschrecke.png";
-        String imagePath5 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\seestern.png";
-        
-        JButton würfelnButton = new JButton("Würfeln");
-        würfelnButton.setBounds(350, 700, 100, 30);
-        würfelnButton.addActionListener(new ActionListener() {
-      
-            public void actionPerformed(ActionEvent e) {
-                Würfel würfel = new Würfel();
-                würfel.würfel();
-                int augensumme = würfel.getAugensumme();
-                System.out.println("Gewürfelte Augensumme: " + augensumme);
-            }
-        });
-
-        spielfeld.add(würfelnButton);
-        add(spielfeld);
     }
 
-    private void addSpielfigur(Spielfigur spielfigur, String bildDatei) {
-        //Überprüfen, ob die Ressource vorhanden ist
-        java.net.URL bildURL = getClass().getResource("/" + bildDatei);
-        if (bildURL == null) {
-            System.out.println("Bilddatei nicht gefunden: " + bildDatei);
-            return;
-        }
-        
-        ImageIcon icon = new ImageIcon(bildURL);
-        JLabel label = new JLabel(icon);
-        label.setBounds(50, 50, icon.getIconWidth(), icon.getIconHeight());
-        spielfeld.feldAmOrt(spielfigur.getPosition()).add(label); //Füge das Label dem richtigen Feld hinzu
-        spielfeld.add(label);
-        spielfigurenLabels.put(spielfigur.getName(), label);
+    //Methode zum Aufrufen des Namens
+    public String getName() {
+        return name;
     }
-
-    private void verschiebeSpielfigur(String name, int x, int y) {
-        JLabel label = spielfigurenLabels.get(name);
-        if (label != null) {
-            label.setLocation(x, y);
-        } 
-        else {
-            System.out.println("Spielfigur mit Namen " + name + " nicht gefunden.");
-        }
+   
+    public void felderVorrücken(Spielfeld spielfeld, int augensumme) {
+        int neuesFeldIndex = (aktuellesFeld.getIndex() + augensumme) % spielfeld.getAlleFelder().size();
+        Feld neuesFeld = spielfeld.feldAmOrt(neuesFeldIndex);
+        setAktuellesFeld(neuesFeld);
+        System.out.println(name + " ist auf " + neuesFeld.getName() + " gelandet.");
     }
-
+    
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-           
-            public void run() {
-                new SpielfigurGui().setVisible(true);
-            }
-        });
+    	 //Initialisiere das Spielfeld und die Spielfiguren
+        Spielfeld spielfeld = new Spielfeld(0, 0, 800, 800);
+        List<Spielfigur> spielfiguren = initSpielfiguren(spielfeld);
+        Spielfigur figur = spielfiguren.get(0); // Erste Spielfigur, noch für die anderen machen?
+        Würfel würfel = new Würfel();
+        würfel.würfel();
+        int augensumme = würfel.getAugensumme();
+        figur.felderVorrücken(spielfeld, augensumme);
     }
+    //Initialisiere die Spielfiguren auf dem Startfeld
+    List<Spielfigur> spielfiguren = new ArrayList<>();
+    Feld startFeld = spielfeld.feldAmOrt(00);
+   
+    private static List<Spielfigur> initSpielfiguren(Spielfeld spielfeld) {
+        List<Spielfigur> spielfiguren = new ArrayList<>();
+        spielfiguren.add(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0), spielfeld));
+        spielfiguren.add(new Spielfigur("Paramecium", spielfeld.feldAmOrt(0), spielfeld));
+        spielfiguren.add(new Spielfigur("Heuschrecke", spielfeld.feldAmOrt(0), spielfeld));
+        spielfiguren.add(new Spielfigur("Fisch", spielfeld.feldAmOrt(0), spielfeld));
+        spielfiguren.add(new Spielfigur("Seestern", spielfeld.feldAmOrt(0), spielfeld));
+        spielfiguren.add(new Spielfigur("Schwein", spielfeld.feldAmOrt(0), spielfeld));
+        return spielfiguren;
+    }
+    
+ //Methode zum Anzeigen aller Spielfiguren
+    private static void zeigeSpielfiguren(List<Spielfigur> spielfiguren) {
+        for (int i = 0; i < spielfiguren.size(); i++) {
+            System.out.println((i + 1) + ". " + spielfiguren.get(i).getName());
+        }
+    }
+ 
+        public int getIntelligenz() {
+            return intelligenz;
+        }
+
+        public void setIntelligenz(int intelligenz) {
+            this.intelligenz = intelligenz;
+        }
+
+        public boolean isPleite() {
+            return pleite;
+        }
+
+        public void setPleite(boolean pleite) {
+            this.pleite = pleite;
+        }
+        
+        public Feld getAktuellesFeld() {
+            return aktuellesFeld;
+        }
+
+        public void setAktuellesFeld(Feld aktuellesFeld) {
+            this.aktuellesFeld = aktuellesFeld;
+        }
 }
