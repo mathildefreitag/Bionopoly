@@ -42,6 +42,7 @@ public class Spielfeld extends JPanel {
         setBounds(xKoord, yKoord, breite, hoehe);
         this.setLayout(null);
         initialisierungModule();
+        
     }
 
     public static void main(String[] args) {
@@ -218,6 +219,12 @@ public class Spielfeld extends JPanel {
             spieler.setIntelligenz(spieler.getIntelligenz() - 50);
             System.out.println(spieler.getName() + " hat keinen Pasch gewürfelt und muss 50 Intelligenz Strafe zahlen.");
         }
+        
+        
+        // Normaler Zug
+        spieler.felderVorrücken(this, augensumme);
+    
+    
         //Normale Bewegung basierend auf der Augensumme
         int neuesFeldIndex = (spieler.getAktuellesFeld().getIndex() + augensumme) % alleFelder.size();
         Feld neuesFeld = alleFelder.get(neuesFeldIndex);
