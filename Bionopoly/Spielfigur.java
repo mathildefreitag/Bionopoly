@@ -9,6 +9,7 @@ public class Spielfigur {
     private int intelligenz;
     private boolean pleite;
     private Feld aktuellesFeld;
+    private Spielfeld spielfeld;
   
 
     //Konstruktor zum Initialisieren des Namens
@@ -25,7 +26,10 @@ public class Spielfigur {
         return name;
     }
    
-    public void felderVorrücken(Spielfeld spielfeld, int augensumme) {
+    public void felderVorrücken( int augensumme) {
+    	if (spielfeld == null) {
+            throw new IllegalStateException("Spielfeld wurde nicht initialisiert.");
+        }
         int neuesFeldIndex = (aktuellesFeld.getIndex() + augensumme) % spielfeld.getAlleFelder().size();
         Feld neuesFeld = spielfeld.feldAmOrt(neuesFeldIndex);
         setAktuellesFeld(neuesFeld);
@@ -40,40 +44,21 @@ public class Spielfigur {
     spielfeld.würfelnUndBewegen(figur);
 }
     
-    /*public static void main(String[] args) {
-    	 //Initialisiere das Spielfeld und die Spielfiguren
-        Spielfeld spielfeld = new Spielfeld(0, 0, 800, 800);
-        List<Spielfigur> spielfiguren = initSpielfiguren(spielfeld);
-        Spielfigur figur = spielfiguren.get(0); // Erste Spielfigur, noch für die anderen machen?
-        Würfel würfel = new Würfel();
-        würfel.würfel();
-        int augensumme = würfel.getAugensumme();
-        figur.felderVorrücken(spielfeld, augensumme);
-    }
-    //Initialisiere die Spielfiguren auf dem Startfeld
-    List<Spielfigur> spielfiguren = new ArrayList<>();
-    Feld startFeld = spielfelder.feldAmOrt(0);*/
+    
    
-    private static List<Spielfigur> initSpielfiguren(Spielfeld spielfeld) {
+    public static List<Spielfigur> initSpielfiguren(Spielfeld spielfeld) {
         List<Spielfigur> spielfiguren = new ArrayList<>();
-        
-        // Namen für die Spielfiguren definieren
-        String[] namen = { "Regenwurm", "Paramecium", "Heuschrecke", "Fisch", "Seestern", "Schwein" };
-        
-        // Spielfiguren mit Namen initialisieren und auf Feld 0 (Start) setzen
-        for (String name : namen) {
-            spielfiguren.add(new Spielfigur(name, spielfeld.feldAmOrt(0)));
-        }
+       
+        spielfiguren.add(new Spielfigur("Paramecium", spielfeld.feldAmOrt(0)));
+        spielfiguren.add(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0)));
+        spielfiguren.add(new Spielfigur("Heuschrecke", spielfeld.feldAmOrt(0)));
+        spielfiguren.add(new Spielfigur("Seestern", spielfeld.feldAmOrt(0)));
+        spielfiguren.add(new Spielfigur("Fisch", spielfeld.feldAmOrt(0)));
+        spielfiguren.add(new Spielfigur("Schwein", spielfeld.feldAmOrt(0)));
         
         return spielfiguren;
     }
     
- //Methode zum Anzeigen aller Spielfiguren
-    /*private static void zeigeSpielfiguren(List<Spielfigur> spielfiguren) {
-        for (int i = 0; i < spielfiguren.size(); i++) {
-            System.out.println((i + 1) + ". " + spielfiguren.get(i).getName());
-        }
-    }*/
  
         public int getIntelligenz() {
             return intelligenz;
@@ -97,5 +82,9 @@ public class Spielfigur {
 
         public void setAktuellesFeld(Feld aktuellesFeld) {
             this.aktuellesFeld = aktuellesFeld;
+        }
+        
+        public Spielfeld getSpielfeld() {
+            return spielfeld;
         }
 }
