@@ -13,6 +13,7 @@ public class SpielbrettGui2 extends JFrame {
     private JLabel augenZahlValue;
     private JLabel currentPlayerLabel;
     private List<String> spielerNamen;
+    private boolean canRollDice = true;
     private int currentPlayerIndex = 0;
 
     public SpielbrettGui2(int anzahlSpieler) {
@@ -126,14 +127,24 @@ public class SpielbrettGui2 extends JFrame {
         rollButton.setPreferredSize(new Dimension(200, 25));
         rollButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Würfeln und Augenzahl anzeigen
-                int würfel1 = (int) (Math.random() * 6 + 1);
-                int würfel2 = (int) (Math.random() * 6 + 1);
-                dice1.setText(String.valueOf(würfel1));
-                dice2.setText(String.valueOf(würfel2));
-                augenZahlValue.setText(String.valueOf(würfel1 + würfel2));
+                if (canRollDice) {
+                    // Würfeln und Augenzahl anzeigen
+                    int würfel1 = (int) (Math.random() * 6 + 1);
+                    int würfel2 = (int) (Math.random() * 6 + 1);
+                    dice1.setText(String.valueOf(würfel1));
+                    dice2.setText(String.valueOf(würfel2));
+                    augenZahlValue.setText(String.valueOf(würfel1 + würfel2));
+                    canRollDice = false;
+                    if (würfel1 == würfel2) {
+                        JOptionPane.showMessageDialog(panel, "Pasch! Du darfst noch einmal würfeln.");
+                        canRollDice = true; // Pasch erlaubt ein weiteres Würfeln
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(panel, "Du hast bereits gewürfelt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+        
         panel.add(rollButton);
 
         // Panel für gewürfelte Augenzahl
@@ -183,6 +194,7 @@ public class SpielbrettGui2 extends JFrame {
         if (currentPlayerIndex >= spielerNamen.size()) {
             currentPlayerIndex = 0;
         }
+        canRollDice = true; // Würfeln für den nächsten Spieler wieder ermöglichen
         updateCurrentPlayer();
     }
 
