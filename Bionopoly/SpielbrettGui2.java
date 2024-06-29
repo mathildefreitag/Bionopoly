@@ -1,4 +1,5 @@
 package gui;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -9,7 +10,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SpielbrettGui2 extends JFrame {
-    private JLabel augenZahlValue; // Instanzvariable für die gewürfelte Augenzahl
+    private JLabel augenZahlValue;
+    private JLabel currentPlayerLabel;
+    private List<String> spielerNamen;
+    private int currentPlayerIndex = 0;
 
     public SpielbrettGui2(int anzahlSpieler) {
         setTitle("Bionopoly");
@@ -44,7 +48,7 @@ public class SpielbrettGui2 extends JFrame {
         bottomPanelRight.setPreferredSize(new Dimension(200, 300));
 
         //  Liste von Spielernamen
-        List<String> spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
+        spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
 
         // Spieler initialisieren mit individuellen Namen
         for (int i = 0; i < spielerNamen.size(); i++) {
@@ -82,17 +86,24 @@ public class SpielbrettGui2 extends JFrame {
 
         // Würfel GUI erstellen
         createDicePanel(bottomPanelRight);
+
+        // Aktuellen Spieler anzeigen
+        updateCurrentPlayer();
     }
 
     // Würfel und Text erstellen
     private void createDicePanel(JPanel panel) {
-        JPanel namenAnzeige = new JPanel();
-        namenAnzeige.setPreferredSize(new Dimension(400, 50));
-        JLabel infoLabel = new JLabel("Aktueller Spieler: ", SwingConstants.CENTER);
-        infoLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        namenAnzeige.add(infoLabel);
-        panel.add(namenAnzeige, BorderLayout.NORTH);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        // Panel für aktuellen Spieler
+        JPanel namenAnzeige = new JPanel();
+        namenAnzeige.setPreferredSize(new Dimension(400, 30));
+        currentPlayerLabel = new JLabel("Aktueller Spieler: ", SwingConstants.CENTER);
+        currentPlayerLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        namenAnzeige.add(currentPlayerLabel);
+        panel.add(namenAnzeige);
+
+        // Panel für Würfel
         JPanel dicePanel = new JPanel();
         dicePanel.setPreferredSize(new Dimension(400, 100));
 
@@ -108,7 +119,7 @@ public class SpielbrettGui2 extends JFrame {
         dice2.setPreferredSize(new Dimension(40, 40));
         dicePanel.add(dice2);
 
-        panel.add(dicePanel, BorderLayout.CENTER);
+        panel.add(dicePanel);
 
         // "Würfeln"-Button
         JButton rollButton = new JButton("Würfeln");
@@ -123,25 +134,26 @@ public class SpielbrettGui2 extends JFrame {
                 augenZahlValue.setText(String.valueOf(würfel1 + würfel2));
             }
         });
-        panel.add(rollButton, BorderLayout.SOUTH);
+        panel.add(rollButton);
 
         // Panel für gewürfelte Augenzahl
         JPanel augenZahlPanel = new JPanel();
-        augenZahlPanel.setPreferredSize(new Dimension(400, 50));
+        augenZahlPanel.setPreferredSize(new Dimension(400, 30));
         JLabel augenZahlLabel = new JLabel("Gewürfelte Augenzahl: ");
         augenZahlPanel.add(augenZahlLabel);
         augenZahlValue = new JLabel("0"); // Initialwert
         augenZahlPanel.add(augenZahlValue);
-        panel.add(augenZahlPanel, BorderLayout.SOUTH);
+        panel.add(augenZahlPanel);
 
         // Panel für Buttons "Fortfahren" und "Zug beenden"
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(400, 50));
+        buttonPanel.setPreferredSize(new Dimension(400, 30));
 
         JButton fortfahrenButton = new JButton("Fortfahren");
         fortfahrenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Hier Code für Fortfahren
+                // Weitere Aktionen implementieren
             }
         });
         buttonPanel.add(fortfahrenButton);
@@ -149,12 +161,12 @@ public class SpielbrettGui2 extends JFrame {
         JButton zugBeendenButton = new JButton("Zug beenden");
         zugBeendenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Hier Code für Zug beenden
+                zugBeenden();
             }
         });
         buttonPanel.add(zugBeendenButton);
 
-        panel.add(buttonPanel, BorderLayout.SOUTH);
+        panel.add(buttonPanel);
     }
 
     // Methode zum Erstellen eines Spieler-Panels
@@ -164,6 +176,19 @@ public class SpielbrettGui2 extends JFrame {
         playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         playerPanel.add(new JLabel(playerName));
         return playerPanel;
+    }
+
+    private void zugBeenden() {
+        currentPlayerIndex++;
+        if (currentPlayerIndex >= spielerNamen.size()) {
+            currentPlayerIndex = 0;
+        }
+        updateCurrentPlayer();
+    }
+
+    private void updateCurrentPlayer() {
+        String currentPlayer = spielerNamen.get(currentPlayerIndex);
+        currentPlayerLabel.setText("Aktueller Spieler: " + currentPlayer);
     }
 
     // Main-Methode zum Testen
