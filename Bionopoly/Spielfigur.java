@@ -29,7 +29,6 @@ public class Spielfigur {
         int neuesFeldIndex = (aktuellesFeld.getIndex() + augensumme) % spielfeld.getAlleFelder().size();
         Feld neuesFeld = spielfeld.feldAmOrt(neuesFeldIndex);
         setAktuellesFeld(neuesFeld);
-        System.out.println(name + " ist auf " + neuesFeld.getName() + " gelandet.");
     }
     
     public static void main(String[] args) {
@@ -57,12 +56,15 @@ public class Spielfigur {
    
     private static List<Spielfigur> initSpielfiguren(Spielfeld spielfeld) {
         List<Spielfigur> spielfiguren = new ArrayList<>();
-        spielfiguren.add(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Paramecium", spielfeld.feldAmOrt(1)));
-        spielfiguren.add(new Spielfigur("Heuschrecke", spielfeld.feldAmOrt(2)));
-        spielfiguren.add(new Spielfigur("Fisch", spielfeld.feldAmOrt(3)));
-        spielfiguren.add(new Spielfigur("Seestern", spielfeld.feldAmOrt(4)));
-        spielfiguren.add(new Spielfigur("Schwein", spielfeld.feldAmOrt(5)));
+        
+        // Namen für die Spielfiguren definieren
+        String[] namen = { "Regenwurm", "Paramecium", "Heuschrecke", "Fisch", "Seestern", "Schwein" };
+        
+        // Spielfiguren mit Namen initialisieren und auf Feld 0 (Start) setzen
+        for (String name : namen) {
+            spielfiguren.add(new Spielfigur(name, spielfeld.feldAmOrt(0)));
+        }
+        
         return spielfiguren;
     }
     
