@@ -1,21 +1,20 @@
 package gui;
 
 import bionopoly.Spielfigur;
-import bionopoly.Würfel;
 import bionopoly.Spielfeld;
 import bionopoly.Feld;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SpielfigurGui extends JFrame {
     private Map<String, JLabel> spielfigurenLabels;
-    private JPanel spielfeld;
-    private Spielfeld feldAmOrt;
+    private JPanel spielfeldPanel;
+    private Spielfeld spielfeld;
 
     public SpielfigurGui() {
         setTitle("Bionopoly");
@@ -23,68 +22,86 @@ public class SpielfigurGui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        spielfeld = new JPanel();
-        spielfeld.setLayout(null);
-        int startfeld = 0;
+        spielfeldPanel = new JPanel();
+        spielfeldPanel.setLayout(null);
+        add(spielfeldPanel);
 
-        
-        spielfeld = new Spielfeld(50, 50, 612, 612);
-
-
-        String imagePath = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\fisch.png";
-        String imagePath1 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\regenwurm.png";
-        String imagePath2 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\paramecium.png";
-        String imagePath3 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\schwein.png";
-        String imagePath4 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\heuschrecke.png";
-        String imagePath5 = "C:\\Users\\freit\\eclipse-workspace\\Bionopoly\\src\\gui\\seestern.png";
-        
-        JButton würfelnButton = new JButton("Würfeln");
-        würfelnButton.setBounds(350, 700, 100, 30);
-        würfelnButton.addActionListener(new ActionListener() {
-      
-            public void actionPerformed(ActionEvent e) {
-                Würfel würfel = new Würfel();
-                würfel.würfel();
-                int augensumme = würfel.getAugensumme();
-                System.out.println("Gewürfelte Augensumme: " + augensumme);
-            }
-        });
-
-        spielfeld.add(würfelnButton);
-        add(spielfeld);
+        spielfigurenLabels = new HashMap<>();
     }
 
-    private void addSpielfigur(Spielfigur spielfigur, String bildDatei) {
-        //Überprüfen, ob die Ressource vorhanden ist
-        java.net.URL bildURL = getClass().getResource("/" + bildDatei);
-        if (bildURL == null) {
-            System.out.println("Bilddatei nicht gefunden: " + bildDatei);
+    public void initializeSpielfeld(Spielfeld spielfeld, List<Spielfigur> spielfiguren) {
+        this.spielfeld = spielfeld;
+
+        for (Spielfigur spielfigur : spielfiguren) {
+            addSpielfigur(spielfigur);
+        }
+    }
+
+    private void addSpielfigur(Spielfigur spielfigur) {
+        String bildDatei = getBildDatei(spielfigur.getName());
+        if (bildDatei == null) {
+            System.out.println("Bilddatei nicht gefunden für: " + spielfigur.getName());
             return;
         }
-        
-        ImageIcon icon = new ImageIcon(bildURL);
-        JLabel label = new JLabel(icon);
-        label.setBounds(50, 50, icon.getIconWidth(), icon.getIconHeight());
-        spielfeld.feldAmOrt(spielfigur.getPosition()).add(label); //Füge das Label dem richtigen Feld hinzu
-        spielfeld.add(label);
+
+        ImageIcon originalIcon = new ImageIcon(bildDatei); // Assuming image paths are correct
+        ImageIcon scaledIcon = getScaledIcon(originalIcon, 100, 60); // Scale to 50x50 pixels
+        JLabel label = new JLabel(scaledIcon);
+        Feld aktuellesFeld = spielfigur.getAktuellesFeld();
+        label.setBounds(aktuellesFeld.getX(), aktuellesFeld.getY(), scaledIcon.getIconWidth(), scaledIcon.getIconHeight());
+        spielfeldPanel.add(label);
         spielfigurenLabels.put(spielfigur.getName(), label);
     }
 
-    private void verschiebeSpielfigur(String name, int x, int y) {
+    private ImageIcon getScaledIcon(ImageIcon originalIcon, int width, int height) {
+        Image originalImage = originalIcon.getImage();
+        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+
+    private String getBildDatei(String name) {
+        switch (name) {
+            case "Paramecium":
+                return "paramecium.png";
+            case "Regenwurm":
+                return "regenwurm.png";
+            case "Heuschrecke":
+                return "heuschrecke.png";
+            case "Seestern":
+                return "seestern.png";
+            case "Fisch":
+                return "fisch.png";
+            case "Schwein":
+                return "schwein.png";
+            default:
+                return null;
+        }
+    }
+
+    public void verschiebeSpielfigur(String name, int x, int y) {
         JLabel label = spielfigurenLabels.get(name);
         if (label != null) {
             label.setLocation(x, y);
-        } 
-        else {
+        } else {
             System.out.println("Spielfigur mit Namen " + name + " nicht gefunden.");
         }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-           
             public void run() {
-                new SpielfigurGui().setVisible(true);
+                SpielfigurGui gui = new SpielfigurGui();
+                gui.setVisible(true);
+
+                // Initialize the Spielfeld and Spielfiguren
+                Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612);
+                List<Spielfigur> spielfiguren = Spielfigur.initSpielfiguren(spielfeld, gui);
+
+                gui.initializeSpielfeld(spielfeld, spielfiguren);
+
+                // Test movement for one Spielfigur
+                Spielfigur figur = spielfiguren.get(0); // First Spielfigur
+                spielfeld.würfelnUndBewegen(figur); // Assuming this method moves the figure and updates the GUI
             }
         });
     }
