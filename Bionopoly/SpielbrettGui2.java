@@ -14,8 +14,10 @@ public class SpielbrettGui2 extends JFrame {
     public SpielbrettGui2 (int anzahlSpieler) {
         setTitle("Bionopoly");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1500, 800);
+        setResizable(false);
         setLayout(new BorderLayout());
+        //setResizable(true);
 
         //Spieler Panels Container
         JPanel leftContainer = new JPanel();
@@ -68,12 +70,12 @@ public class SpielbrettGui2 extends JFrame {
         boardPanel.setPreferredSize(new Dimension(400, 400));
 
         //Pfad zum PNG-Bild
-        String imagePath = "C:\\Users\\sina3\\OneDrive\\Dokumente\\HSB 2. Semester\\Informatik\\Softwareprojekt\\src\\bionopoly\\spielbrett2.0.png";
+        String imagePath = "spielbrett2.0.png";
 
         //ImageIcon erstellen und dem JLabel zuweisen
         ImageIcon icon = new ImageIcon(imagePath);
         //Bildgröße anpassen
-        int imageSize = 780; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
+        int imageSize = 730; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
         ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, java.awt.Image.SCALE_SMOOTH));
         JLabel label = new JLabel(scaledIcon);
 
