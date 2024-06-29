@@ -15,18 +15,32 @@ package bionopoly;
 	    private int miete;
 	    private Spieler besitzer;
 	    private int index;
+	    private String name;
 
 	    public Feld(int x, int y, int width, int height, String name, int rotation) {
-	        super(name); //Setze den Text des Labels
+	        this.name = name;
+	        this.index = index;
 	        this.rotation = rotation;
 	        this.preis = 0; 
 	        this.miete = 0;
+	        
+	        setLayout(null);
+	        
+	        JLabel nameLabel = new JLabel(name);
+	        nameLabel.setBounds(0, 0, width, height);
+	        add(nameLabel);
+	        
 	        setBounds(x, y, width, height);
 	        setOpaque(true);
 	        setBackground(Color.LIGHT_GRAY);
 	        setHorizontalAlignment(SwingConstants.CENTER);
 	        setVerticalAlignment(SwingConstants.CENTER);
 	    }
+	    
+	    public String getName() {
+	        return name;
+	    }
+	    
 	    public void setPreis(int price) {
 	        this.preis = price;
 	    }
@@ -69,4 +83,3 @@ package bionopoly;
 	        g2.setTransform(aT); 
 	    }
 	}
-
