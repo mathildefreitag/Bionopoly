@@ -229,7 +229,7 @@ public class Spielfeld extends JPanel {
         int neuesFeldIndex = (spieler.getAktuellesFeld().getIndex() + augensumme) % alleFelder.size();
         Feld neuesFeld = alleFelder.get(neuesFeldIndex);
         spieler.setAktuellesFeld(neuesFeld);
-        System.out.println(spieler.getName() + " hat " + augensumme + " gewürfelt und ist auf " + neuesFeld.getName() + " gelandet.");
+        System.out.println(spieler.getName() + " hat eine " + augensumme + " gewürfelt und ist auf dem Modul '" + neuesFeld.getName() + "' gelandet.");
     }
     
     //Methode, um zu überprüfen, ob der Spieler Felder zu verkaufen hat
