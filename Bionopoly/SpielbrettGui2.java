@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import bionopoly.Würfel;
+import java.util.Arrays;
+import java.util.List;
 
 public class SpielbrettGui2 extends JFrame {
 	 private Würfel würfel = new Würfel();
@@ -15,7 +17,7 @@ public class SpielbrettGui2 extends JFrame {
         setTitle("Bionopoly");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 800);
-        setResizable(false);
+        setResizable(false); //feste Größe für das Spielbrett
         setLayout(new BorderLayout());
         //setResizable(true);
 
@@ -44,12 +46,17 @@ public class SpielbrettGui2 extends JFrame {
         JPanel bottomPanelRight = new JPanel();
         bottomPanelRight.setPreferredSize(new Dimension(200, 300)); //Höhe des zusätzlichen Panels
 
-        //Spieler initialisieren
-        for (int i = 1; i <= anzahlSpieler; i++) {
-            if (i <= 3) {
-                leftPanel.add(createPlayerPanel("Spieler " + i));
+        
+     // Beispiel: Liste von Spielernamen
+        List<String> spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
+
+        // Spieler initialisieren mit individuellen Namen
+        for (int i = 0; i < spielerNamen.size(); i++) {
+            String spielerName = spielerNamen.get(i);
+            if (i < 3) {
+                leftPanel.add(createPlayerPanel(spielerName));
             } else {
-                rightPanel.add(createPlayerPanel("Spieler " + i));
+                rightPanel.add(createPlayerPanel(spielerName));
             }
         }
 
@@ -75,7 +82,7 @@ public class SpielbrettGui2 extends JFrame {
         //ImageIcon erstellen und dem JLabel zuweisen
         ImageIcon icon = new ImageIcon(imagePath);
         //Bildgröße anpassen
-        int imageSize = 730; //Quadratische Größe für das Bild (angepasst an die Bildschirmgröße)
+        int imageSize = 730; //Quadratische Größe für das Bild (angepasst an die festgelegte Bildschirmgröße)
         ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, java.awt.Image.SCALE_SMOOTH));
         JLabel label = new JLabel(scaledIcon);
 
