@@ -1,13 +1,9 @@
 package bionopoly;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-
 import gui.SpielfigurGui;
 
-public class Spielfigur {
+public class Spielfigur extends Spieler {
     private String name;
     private int intelligenz;
     private boolean pleite;
@@ -17,6 +13,7 @@ public class Spielfigur {
 
     // Konstruktor zum Initialisieren des Namens und des Startfelds
     public Spielfigur(String name, Feld startFeld) {
+        super(name, 1500, 0, null); // Aufruf des Superkonstruktors
         this.name = name;
         this.intelligenz = 1500; // Startkapital
         this.pleite = false;
@@ -40,8 +37,8 @@ public class Spielfigur {
         System.out.println(name + " hat seinen Zug beendet.");
     }
 
-    public static List<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui) {
-        List<Spielfigur> spielfiguren = new ArrayList<>();
+    public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui) {
+        ArrayList<Spielfigur> spielfiguren = new ArrayList<>();
 
         spielfiguren.add(new Spielfigur("Paramecium", spielfeld.feldAmOrt(0)));
         spielfiguren.add(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0)));
@@ -97,7 +94,8 @@ public class Spielfigur {
         return spielfeld;
     }
 
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
 
         JFrame frame = new JFrame("Spielbrett Übersicht");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,5 +112,5 @@ public class Spielfigur {
         // Testbewegung für eine Spielfigur
         Spielfigur figur = spielfiguren.get(0); // Erste Spielfigur
         spielfeld.würfelnUndBewegen(figur);
-    }
+    }*/
 }
