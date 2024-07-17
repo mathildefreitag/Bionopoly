@@ -1,8 +1,10 @@
 package gui;
 
+import bionopoly.Spielfigur;
+import bionopoly.Währung;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +17,11 @@ public class SpielbrettGui2 extends JFrame {
     private List<String> spielerNamen;
     private boolean canRollDice = true;
     private int currentPlayerIndex = 0;
+    private Währung währung;
+    private JLabel[] playerCurrencyLabels;
 
-    public SpielbrettGui2(int anzahlSpieler) {
+    public SpielbrettGui2(int anzahlSpieler, Währung währung) {
+        this.währung = währung;
         setTitle("Bionopoly");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 800);
@@ -48,16 +53,18 @@ public class SpielbrettGui2 extends JFrame {
         JPanel bottomPanelRight = new JPanel();
         bottomPanelRight.setPreferredSize(new Dimension(200, 300));
 
-        //  Liste von Spielernamen
+        // Liste von Spielernamen
         spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
 
+        playerCurrencyLabels = new JLabel[anzahlSpieler]; // Anzahl der Spieler
+
         // Spieler initialisieren mit individuellen Namen
-        for (int i = 0; i < spielerNamen.size(); i++) {
-            String spielerName = spielerNamen.get(i);
+        for (int i = 0; i < anzahlSpieler; i++) {
+            String spielerName = währung.getSpieler()[i].getName(); // Name aus der Währungsklasse
             if (i < 3) {
-                leftPanel.add(createPlayerPanel(spielerName));
+                leftPanel.add(createPlayerPanel(spielerName, i));
             } else {
-                rightPanel.add(createPlayerPanel(spielerName));
+                rightPanel.add(createPlayerPanel(spielerName, i));
             }
         }
 
@@ -144,7 +151,7 @@ public class SpielbrettGui2 extends JFrame {
                 }
             }
         });
-        
+
         panel.add(rollButton);
 
         // Panel für gewürfelte Augenzahl
@@ -180,36 +187,45 @@ public class SpielbrettGui2 extends JFrame {
         panel.add(buttonPanel);
     }
 
-    // Methode zum Erstellen eines Spieler-Panels
-    private JPanel createPlayerPanel(String playerName) {
+    // Methode zum Erstellen eines Spieler-Panels mit anpassbarer Schriftgröße und Position
+    private JPanel createPlayerPanel(String playerName, int playerIndex) {
         JPanel playerPanel = new JPanel();
-        playerPanel.setPreferredSize(new Dimension(200, 100));
+        playerPanel.setPreferredSize(new Dimension(200, 120)); // Höhe erhöht für Platzierung der Währung
         playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        playerPanel.add(new JLabel(playerName));
+        playerPanel.setLayout(new BorderLayout());
+
+        // Label für Spielernamen mit angepasster Schriftgröße
+        JLabel nameLabel = new JLabel(playerName);
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Schriftgröße für Spielernamen
+        playerPanel.add(nameLabel, BorderLayout.NORTH);
+
+        // Panel für Währungsanzeige
+        JPanel currencyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); // Anpassbare Positionierung
+        currencyPanel.setOpaque(false); // Transparentes Panel für Hintergrund des Währungstextes
+
+        // Label für Währung (Intelligenz) mit angepasster Schriftgröße und Textposition
+        JLabel currencyLabel = new JLabel("Intelligenz: " + währung.getSpieler()[playerIndex].getIntelligenz());
+        currencyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        currencyLabel.setFont(new Font("Arial", Font.PLAIN, 14)); // Schriftgröße für Währungsanzeige
+        currencyPanel.add(currencyLabel);
+
+        playerPanel.add(currencyPanel, BorderLayout.CENTER); // Hinzufügen zum Spielerpanel
+
+        playerCurrencyLabels[playerIndex] = currencyLabel;
+
         return playerPanel;
     }
 
-    private void zugBeenden() {
-        currentPlayerIndex++;
-        if (currentPlayerIndex >= spielerNamen.size()) {
-            currentPlayerIndex = 0;
-        }
-        canRollDice = true; // Würfeln für den nächsten Spieler wieder ermöglichen
-        updateCurrentPlayer();
-    }
-
     private void updateCurrentPlayer() {
-        String currentPlayer = spielerNamen.get(currentPlayerIndex);
-        currentPlayerLabel.setText("Aktueller Spieler: " + currentPlayer);
+        if (currentPlayerIndex < spielerNamen.size()) {
+            currentPlayerLabel.setText("Aktueller Spieler: " + währung.getSpieler()[currentPlayerIndex].getName());
+        }
     }
 
-    // Main-Methode zum Testen
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                SpielbrettGui2 gui = new SpielbrettGui2(6); // Beispiel: 6 Spieler
-                gui.setVisible(true);
-            }
-        });
+    private void zugBeenden() {
+        canRollDice = true; // Spieler darf wieder würfeln
+        currentPlayerIndex = (currentPlayerIndex + 1) % währung.getSpieler().length;
+        updateCurrentPlayer();
     }
 }
