@@ -1,5 +1,6 @@
 package gui;
 
+import bionopoly.Feld;
 import bionopoly.Spielfigur;
 import bionopoly.Währung;
 
@@ -167,14 +168,32 @@ public class SpielbrettGui2 extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(400, 30));
 
-        JButton fortfahrenButton = new JButton("Fortfahren");
-        fortfahrenButton.addActionListener(new ActionListener() {
+        JButton KaufenButton = new JButton("Kaufen");
+        KaufenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Hier Code für Fortfahren
-                // Weitere Aktionen implementieren
+                Spielfigur currentPlayer = währung.getSpieler()[currentPlayerIndex];
+                Feld currentField = currentPlayer.getAktuellesFeld();
+                
+                if (currentField.getBesitzer() == null && !currentPlayer.getSpielfeld().getUnkaufbareFelder().contains(currentField)) {
+                    int fieldPrice = currentField.getPreis();
+
+                    if (currentPlayer.getIntelligenz() >= fieldPrice) {
+                        // Player can afford the field
+                        currentPlayer.setIntelligenz(currentPlayer.getIntelligenz() - fieldPrice);
+                        currentField.setBesitzer(currentPlayer);
+                        playerCurrencyLabels[currentPlayerIndex].setText("Intelligenz: " + currentPlayer.getIntelligenz());
+                        JOptionPane.showMessageDialog(panel, "Du hast das Feld " + currentField.getName() + " erfolgreich gekauft!");
+                    } else {
+                        // Player cannot afford the field
+                        JOptionPane.showMessageDialog(panel, "Du hast nicht genug Intelligenz, um dieses Feld zu kaufen!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    // Field is either not purchasable or already owned
+                    JOptionPane.showMessageDialog(panel, "Dieses Feld kann nicht gekauft werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        buttonPanel.add(fortfahrenButton);
+        buttonPanel.add(KaufenButton);
 
         JButton zugBeendenButton = new JButton("Zug beenden");
         zugBeendenButton.addActionListener(new ActionListener() {
