@@ -18,6 +18,9 @@ public class StartbildschirmGui extends JPanel {
     private int anzahlSpieler;
     private List<String> spielerNamen;
 
+    // Definiere eine Liste von Farben für die Spielfiguren
+    private static final Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
+
     public StartbildschirmGui() {
         setLayout(new GridBagLayout());
         setBackground(Color.LIGHT_GRAY);
@@ -46,9 +49,13 @@ public class StartbildschirmGui extends JPanel {
                 Währung währung = new Währung();
                 Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612);
                 Spielfigur[] spieler = new Spielfigur[anzahlSpieler];
+
                 for (int i = 0; i < anzahlSpieler; i++) {
-                    spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0));
+                    // Wähle eine Farbe für den Spieler basierend auf dem Index
+                    Color farbe = farben[i % farben.length];
+                    spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0), farbe);
                 }
+
                 währung.setSpieler(spieler);
 
                 // Erzeuge und zeige das SpielbrettGui2-Fenster
