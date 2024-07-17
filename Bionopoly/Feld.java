@@ -18,6 +18,7 @@ public class Feld extends JLabel {
     private int miete;
     private Spieler besitzer;
     private int index;
+    
     private String name;
     private List<Spielfigur> spielfiguren = new ArrayList<>();
     private static ArrayList<Feld> alleFelder = new ArrayList<>();
@@ -83,9 +84,10 @@ public class Feld extends JLabel {
     public List<Spielfigur> getSpielfiguren() {
         return spielfiguren;
     }
+   
 
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+    	Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         AffineTransform aT = g2.getTransform();
         Shape oldshape = g2.getClip();
@@ -97,10 +99,11 @@ public class Feld extends JLabel {
         super.paintComponent(g);
         g2.setTransform(aT);
         super.paintComponent(g);
+        // Paint each player's figure as a colored square
         for (Feld feld : alleFelder) {
-            for (Spielfigur figur : feld.getSpielfiguren()) {
-                g.setColor(Color.BLACK);
-                g.fillRect(feld.getX(), feld.getY(), 200, 200); // Adjust size as needed
+            for (Spielfigur figur : spielfiguren) {
+                g2.setColor(Color.BLACK);
+                g2.fillRect(feld.getX(), feld.getY(), 200, 200); // Adjust size as needed
             }
         }
     }
