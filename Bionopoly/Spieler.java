@@ -1,5 +1,6 @@
 package bionopoly;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,10 +28,6 @@ public class Spieler {
 
     public String getName() {
         return name;
-    }
-
-    public int getPosition() {
-        return position;
     }
 
     public void setPosition(int position) {
@@ -114,4 +111,5 @@ public class Spieler {
     public Spielfeld getSpielfeld() {
         return spielfeld;
     }
+    
 }
