@@ -1,6 +1,12 @@
 package bionopoly;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
+import java.awt.Point;
+
+import javax.swing.JFrame;
+
 import gui.SpielfigurGui;
 
 public class Spielfigur extends Spieler {
@@ -10,44 +16,76 @@ public class Spielfigur extends Spieler {
     private Feld aktuellesFeld;
     private Spielfeld spielfeld;
     private static SpielfigurGui gui;
+    private Color farbe;
+    private Point position;
 
-    // Konstruktor zum Initialisieren des Namens und des Startfelds
-    public Spielfigur(String name, Feld startFeld) {
-        super(name, 1500, 0, null); // Aufruf des Superkonstruktors
+    // Statische Liste, die die aktuellen Felder aller Spielfiguren speichert
+    private static List<Feld> spielfigurenFelder = new ArrayList<>();
+
+    public Spielfigur(String name, Feld startFeld, Color farbe) {
+        super(name, 1500, 0, null);
         this.name = name;
         this.intelligenz = 1500; // Startkapital
         this.pleite = false;
         this.aktuellesFeld = startFeld;
+        this.farbe = farbe;
+        spielfigurenFelder.add(startFeld); // Initialisiere das Startfeld in der Liste
+        this.position = new Point(startFeld.getX(), startFeld.getY());
+    }
+    
+    public Color getFarbe() {
+        return farbe;
     }
 
     public String getName() {
         return name;
     }
+    public Point getPosition() {
+        return position;
+    }
+    
+    
 
     public void felderVorrücken(int augensumme) {
         if (spielfeld == null) {
             throw new IllegalStateException("Spielfeld wurde nicht initialisiert.");
         }
-        int neuesFeldIndex = (aktuellesFeld.getIndex() + augensumme) % spielfeld.getAlleFelder().size();
+
+        // Berechne den neuen Index basierend auf dem aktuellen Feld
+        int aktuellerIndex = aktuellesFeld.getIndex();
+        int neuesFeldIndex = (aktuellerIndex + augensumme) % spielfeld.getAlleFelder().size();
+        
         Feld neuesFeld = spielfeld.feldAmOrt(neuesFeldIndex);
-        setAktuellesFeld(neuesFeld);
+        setPosition(new Point(neuesFeld.getX(), neuesFeld.getY()));
+        setAktuellesFeld(neuesFeld); // Aktuelles Feld aktualisieren
+    }
+
+    private void aktualisiereFeldInListe(Feld neuesFeld) {
+        int index = spielfigurenFelder.indexOf(aktuellesFeld);
+        if (index != -1) {
+            spielfigurenFelder.set(index, neuesFeld);
+        }
     }
 
     public void zugBeenden() {
         System.out.println(name + " hat seinen Zug beendet.");
     }
+    public void setPosition(Point position) {
+        this.position = position;
+        if (gui != null) {
+            gui.verschiebeSpielfigur(name, position.x, position.y);
+        }
+    }
 
     public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui) {
         ArrayList<Spielfigur> spielfiguren = new ArrayList<>();
 
-        spielfiguren.add(new Spielfigur("Paramecium", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Regenwurm", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Heuschrecke", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Seestern", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Fisch", spielfeld.feldAmOrt(0)));
-        spielfiguren.add(new Spielfigur("Schwein", spielfeld.feldAmOrt(0)));
+        String[] namen = {"Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"};
+        Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
 
-        for (Spielfigur figur : spielfiguren) {
+        for (int i = 0; i < namen.length; i++) {
+            Spielfigur figur = new Spielfigur(namen[i], spielfeld.feldAmOrt(0), farben[i]);
+            spielfiguren.add(figur);
             figur.setSpielfeld(spielfeld);
             figur.setGui(gui);
         }
@@ -94,9 +132,19 @@ public class Spielfigur extends Spieler {
         return spielfeld;
     }
 
+    public void landeAufFeld(Feld feld) {
+        this.aktuellesFeld = feld;
+        aktualisiereFeldInListe(feld);
+        
+        // Setze die Position auf die Koordinaten des Feldes
+        setPosition(new Point(feld.getX(), feld.getY()));
+    }
 
-    /*public static void main(String[] args) {
+    public Feld getLandeFeld() {
+        return aktuellesFeld;
+    }
 
+    public static void main(String[] args) {
         JFrame frame = new JFrame("Spielbrett Übersicht");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1775, 850);
@@ -112,5 +160,5 @@ public class Spielfigur extends Spieler {
         // Testbewegung für eine Spielfigur
         Spielfigur figur = spielfiguren.get(0); // Erste Spielfigur
         spielfeld.würfelnUndBewegen(figur);
-    }*/
+    }
 }
