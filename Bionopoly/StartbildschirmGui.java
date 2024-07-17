@@ -4,22 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+
+import bionopoly.Spielfeld;
+import bionopoly.Spielfigur;
+import bionopoly.Währung;
 
 public class StartbildschirmGui extends JPanel {
     private JButton startButton;
     private JButton beendenButton;
     private JComboBox<String> spielerAnzahlComboBox;
-    private int anzahlSpieler; // Variable zur Speicherung der Spieleranzahl
-    private SpielbrettGui2 spielbrettGui; // Referenz auf das Spielbrett
+    private int anzahlSpieler;
+    private List<String> spielerNamen;
 
     public StartbildschirmGui() {
-        setLayout(new GridBagLayout()); // Verwendung eines GridBagLayouts für präzisere Platzierung
+        setLayout(new GridBagLayout());
         setBackground(Color.LIGHT_GRAY);
 
-        // Begrüßungstext
         JLabel willkommenLabel = new JLabel("<html><div style='font-size: 24px; text-align: center;'>Willkommen zu Bionopoly</div><br>" +
                                             "<div style='font-size: 14px; text-align: center;'>Bitte wählen Sie die gewünschte Spieleranzahl aus</div></html>");
-        willkommenLabel.setPreferredSize(new Dimension(400, 100)); // Größe anpassen
+        willkommenLabel.setPreferredSize(new Dimension(400, 100));
 
         JLabel spielerAnzahlLabel = new JLabel("Anzahl der Spieler:");
         spielerAnzahlComboBox = new JComboBox<>(new String[]{"2 Spieler", "3 Spieler", "4 Spieler", "5 Spieler", "6 Spieler"});
@@ -32,19 +37,29 @@ public class StartbildschirmGui extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedAnzahl = (String) spielerAnzahlComboBox.getSelectedItem();
-                anzahlSpieler = Integer.parseInt(selectedAnzahl.substring(0, 1)); // Speichern der Spieleranzahl
+                anzahlSpieler = Integer.parseInt(selectedAnzahl.substring(0, 1));
 
-                // Erzeugung des SpielbrettGui, aber nicht anzeigen
-                spielbrettGui = new SpielbrettGui2(anzahlSpieler);
+                // Initialisiere Spielernamen
+                spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
 
-                // Schließen des Startbildschirm-Fensters
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this);
-                frame.dispose();
+                // Initialisiere Währung und Spielfeld
+                Währung währung = new Währung();
+                Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612);
+                Spielfigur[] spieler = new Spielfigur[anzahlSpieler];
+                for (int i = 0; i < anzahlSpieler; i++) {
+                    spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0));
+                }
+                währung.setSpieler(spieler);
 
-                // SpielbrettGui anzeigen
+                // Erzeuge und zeige das SpielbrettGui2-Fenster
                 SwingUtilities.invokeLater(() -> {
+                    SpielbrettGui2 spielbrettGui = new SpielbrettGui2(anzahlSpieler, währung);
                     spielbrettGui.setVisible(true);
                 });
+
+                // Schließe das Startbildschirm-Fenster
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this);
+                frame.dispose();
             }
         });
 
@@ -58,15 +73,14 @@ public class StartbildschirmGui extends JPanel {
             }
         });
 
-        // Verwendung von GridBagConstraints, um Komponenten zentriert anzuordnen
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(50, 0, 20, 0); // Abstände anpassen
+        gbc.insets = new Insets(50, 0, 20, 0);
         add(willkommenLabel, gbc);
 
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 0, 10, 0); // Abstände anpassen
+        gbc.insets = new Insets(10, 0, 10, 0);
         add(spielerAnzahlLabel, gbc);
 
         gbc.gridx = 1;
@@ -75,12 +89,12 @@ public class StartbildschirmGui extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER; // Zentrierung der Buttons
-        gbc.insets = new Insets(20, 0, 0, 0); // Abstände anpassen
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(20, 0, 0, 0);
         add(startButton, gbc);
 
         gbc.gridy = 3;
-        gbc.insets = new Insets(10, 0, 50, 0); // Abstände anpassen
+        gbc.insets = new Insets(10, 0, 50, 0);
         add(beendenButton, gbc);
     }
 
@@ -91,11 +105,9 @@ public class StartbildschirmGui extends JPanel {
             frame.setResizable(false);
             frame.getContentPane().add(new StartbildschirmGui());
 
-            // Setzen des Vollbildmodus
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.setUndecorated(true); // Rahmen entfernen für Vollbild
+            frame.setUndecorated(true);
 
-            // Fenster zentrieren
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int centerX = screenSize.width / 2;
             int centerY = screenSize.height / 2;
