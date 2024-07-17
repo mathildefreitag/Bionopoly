@@ -1,6 +1,7 @@
 package bionopoly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -11,10 +12,12 @@ import javax.swing.JPanel;
 public class Spielfeld extends JPanel {
     private static ArrayList<Feld> alleFelder = new ArrayList<>();
     private ArrayList<Spielfigur> spielerListe = new ArrayList<>();
-    private ArrayList<Feld> unkaufbareFelder = new ArrayList<Feld>();
+    private List<Feld> unkaufbareFelder = new ArrayList<>();
+    
     private static int anzahlFelder = 40;
     private static int currentPlayerIndex = 0;
     private boolean canRollDice = true;
+    
     private Spielfigur intelligenz;
     static int miete;
     static String farbe;
@@ -27,7 +30,7 @@ public class Spielfeld extends JPanel {
         return alleFelder;
     }
 
-    public ArrayList<Feld> getUnkaufbareFelder() {
+    public List<Feld> getUnkaufbareFelder() {
         return unkaufbareFelder;
     }
 
@@ -53,7 +56,7 @@ public class Spielfeld extends JPanel {
     private void initialisierungModule() {
         String[] modulNamen = { "Start", "Digital Learning/ Englisch", "Gemeinschaftsfeld", "Präperationstechnik", "O-Woche", "Werder Straße", "Allg. Biologie/ Bionik", "Mathe/ Informatik", "Statistische Datenanalyse", "Chemie/ Physik", "Nachprüfung/ Klausureinsicht", "Spezielle Biologie", "Bibilothek", "Physiologie", "Material/ Mechanik", "Neustadswall", "Konstruktion/ CAD", "Gemeinschaftsfeld", "Projekt Management", "Wahlpflichtmodul", "Urlaubssemester", "Lokomotion", "Ereignisfeld", "Finite Elemente Methode", "Spezielle Werkstoffkunde", "Airport", "Interkulturelle Kompetenz", "Auslandssemester", "Hochschulsport", "Auslandsnachbereitung", "Prüfung nicht bestanden", "Entwicklungsprojekt 'Bionik' ", "Organisationsbionik/ BWL", "Gemeinschaftsfeld", "Optimierungsverfahren", "Bionik Innovations-Centrum", "Ereignisfeld", "Bachelor Thesis", "Bachelor Abschluss-Party", "Bachelorabschluss" };
         int[] preis = { 0, 60, 0, 60, 0, 200, 100, 100, 100, 120, 0, 140, 150, 140, 160, 200, 180, 0, 180, 200, 0, 220, 0, 220, 240, 200, 260, 260, 150, 280, 0, 300, 300, 0, 320, 200, 0, 350, 0, 400 };
-        int[] miete = { 0, 2, 0, 4, 0, 25, 6, 6, 6, 8, 0, 10, 0, 10, 12, 25, 14, 0, 14, 16, 0, 18, 0, 18, 20, 25, 22, 22, 0, 24, 0, 26, 26, 0, 28, 25, 0, 35, 0, 50 };
+        int[] miete = { 0, 2, 0, 4, 0, 25, 6, 6, 6, 8, 0, 10, 15, 10, 12, 25, 14, 0, 14, 16, 0, 18, 0, 18, 20, 25, 22, 22, 15, 24, 0, 26, 26, 0, 28, 25, 0, 35, 0, 50 };
         String[] farbe = {"weiß", "braun", "weiß", "braun", "weiß", "grau", "hellblau", "hellblau", "hellblau", "hellblau", "weiß", "pink", "schwarz", "pink", "pink", "grau", "orange", "weiß", "orange", "orange", "weiß", "rot", "weiß", "rot", "rot", "grau", "gelb", "gelb", "schwarz", "gelb", "weiß", "grün", "grün", "weiß", "grün", "grau", "weiß", "dunkelblau", "weiß", "dunkelblau" };
 
         for (int i = 0; i < modulNamen.length; i++) {
@@ -128,6 +131,8 @@ public class Spielfeld extends JPanel {
     public boolean isPasch(int würfel1, int würfel2) {
         return würfel1 == würfel2;
     }
+    
+
 
     public void würfelnUndBewegen(Spielfigur spieler) {
         if (!canRollDice) {
@@ -198,12 +203,13 @@ public class Spielfeld extends JPanel {
         for (Feld feld : alleFelder) {
             if (feld.getBesitzer() != null && feld.getBesitzer().equals(spieler)) {
                 spieler.setIntelligenz(spieler.getIntelligenz() + feld.getPreis() / 2);
-                feld.setBesitzer(null);
+                feld.setBesitzer((Spieler) spieler); // Cast to Spieler
                 System.out.println(spieler.getName() + " hat im Gegenzug für " + (feld.getPreis() / 2) + " Intelligenz das Modul " + feld.getName() + " abgebrochen");
                 return;
             }
         }
     }
+
 
     public void anzeigenAktuellerStand() {
         for (Spielfigur spieler : spielerListe) {
