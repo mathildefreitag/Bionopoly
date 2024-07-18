@@ -164,7 +164,7 @@ public class Spielfeld extends JPanel {
         }
 
         if (spieler.isInNachpruefung()) {
-            if (spieler.getNachpruefungVersuche() > 0) {
+            if (spieler.getNachprüfungsVersuche() > 0) {
                 Würfel würfel = new Würfel();
                 würfel.würfel();
                 int würfel1 = würfel.getWürfel1();
@@ -172,12 +172,12 @@ public class Spielfeld extends JPanel {
                 if (isPasch(würfel1, würfel2)) {
                     System.out.println(spieler.getName() + " hat die Nachprüfung bestanden.");
                     spieler.setInNachpruefung(false);
-                    spieler.setNachpruefungVersuche(0);
+                    spieler.setNachprüfungsVersuche(0);
                 } 
                 else {
-                    spieler.decreaseNachpruefungVersuche();
-                    System.out.println(spieler.getName() + " hat die Nachprüfung nicht bestanden und hat noch " + spieler.getNachpruefungVersuche() + " Versuche übrig.");
-                    if (spieler.getNachpruefungVersuche() == 0) {
+                    spieler.reduzierungNachprüfungVersuche();
+                    System.out.println(spieler.getName() + " hat die Nachprüfung nicht bestanden und hat noch " + spieler.getNachprüfungsVersuche() + " Versuche übrig.");
+                    if (spieler.getNachprüfungsVersuche() == 0) {
                         System.out.println(spieler.getName() + " hat 3x die Prüfung nicht bestanden und verliert 50 Punkte Intelligenz.");
                         spieler.setIntelligenz(spieler.getIntelligenz() - 50);
                         spieler.setInNachpruefung(false);
@@ -197,36 +197,36 @@ public class Spielfeld extends JPanel {
 
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Urlaubssemester")) {
                 System.out.println(spieler.getName() + " genießt das Urlaubssemester und kann einfach mal nichts tun.");
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
 
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Prüfung nicht bestanden")) {
                 spieler.setAktuellesFeld(feldAmOrt(10));
                 System.out.println(spieler.getName() + " muss in die Nachprüfung.");
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
 
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("O-Woche")) {
                 spieler.setIntelligenz(spieler.getIntelligenz() - 200);
                 System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund von zu hohem Alkoholkonsum verloren.");
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             } 
 
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Bachelorabschlussparty")) {
                 spieler.setIntelligenz(spieler.getIntelligenz() - 200);
                 System.out.println(spieler.getName() + " hat 200 Intelligenz aufgrund zu starkem Feierns auf der Bachelorabschlussparty verloren.");
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
 
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Nachprüfung/ Klausureinsicht")) {
                 spieler.setInNachpruefung(true);
-                spieler.setNachpruefungVersuche(3);
+                spieler.setNachprüfungsVersuche(3);
                 System.out.println(spieler.getName() + " ist in der Nachprüfung und hat 3 Versuche, zu bestehen.");
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
 
@@ -242,7 +242,7 @@ public class Spielfeld extends JPanel {
                         System.out.println(spieler.getName() + " hat zu viele Vorlesungen verpasst und verliert 50 Intelligenz.");
                         break;
                 }
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
             if (spieler.getAktuellesFeld().getName().equalsIgnoreCase("Ereignisfeld")) {
@@ -257,7 +257,7 @@ public class Spielfeld extends JPanel {
                         System.out.println(spieler.getName() + " hat nachts zu viel gezockt, deshalb zu wenig geschlafen und verliert 50 Intelligenz.");
                         break;
                 }
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             }
 
@@ -280,13 +280,13 @@ public class Spielfeld extends JPanel {
                 else {
                     System.out.println(spieler.getName() + " hat sich gegen das belegen von " + spieler.getAktuellesFeld().getName() + " entschieden.\n");
                 }
-                canRollDice = true; // Nächster Spieler kann würfeln
+                canRollDice = true; 
                 return;
             } 
             else if (spieler.getAktuellesFeld().getBesitzer() != null && spieler.getAktuellesFeld().getBesitzer() != spieler) {
             	spieler.mieteZahlen(spieler.getAktuellesFeld());
             }
-            canRollDice = true; // Nächster Spieler kann würfeln
+            canRollDice = true; 
         }
    }
    
@@ -312,9 +312,11 @@ public class Spielfeld extends JPanel {
         Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612); // Declare spielfeld here
         frame.add(spielfeld);
         frame.setVisible(true);
+        
+        Währung währung = new Währung();
 
         SpielfigurGui gui = new SpielfigurGui();
-        ArrayList<Spielfigur> spielfiguren = Spielfigur.initSpielfiguren(spielfeld, gui);
+        ArrayList<Spielfigur> spielfiguren = Spielfigur.initSpielfiguren(spielfeld, gui, währung);
 
         for (Spielfigur figur : spielfiguren) {
             spielfeld.addSpieler(figur);
