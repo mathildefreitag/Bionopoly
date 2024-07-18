@@ -20,7 +20,7 @@ public class Spieler {
 
     public Spieler(String name, int startgeld, Spielfeld spielfeld) {
         this.name = name;
-        Währung währung = new Währung();
+        Waehrung währung = new Waehrung();
         währung.setStartgeld(startgeld);
         this.besitz = new ArrayList<>();
         this.pleite = false;
