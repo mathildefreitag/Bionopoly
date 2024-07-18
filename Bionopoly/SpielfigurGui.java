@@ -3,10 +3,8 @@ package gui;
 import bionopoly.Spielfigur;
 import bionopoly.Spielfeld;
 import bionopoly.Feld;
-import bionopoly.Währung;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
