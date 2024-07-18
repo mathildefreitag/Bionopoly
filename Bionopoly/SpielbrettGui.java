@@ -1,5 +1,6 @@
 package gui;
 
+import bionopoly.Würfel;
 import bionopoly.Feld;
 import bionopoly.Spielfigur;
 import bionopoly.Währung;
@@ -13,296 +14,251 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SpielbrettGui extends JFrame {
+	
+	//Intitalisierung der Variablen, Listen etc.
     private JLabel augenZahlValue;
-    private JLabel currentPlayerLabel;
+    private JLabel aktuellerSpielerLabel;
+    private JLabel[] spielerIntelligenzLabel;
+    
     private List<String> spielerNamen;
-    private boolean canRollDice = true;
-    private int currentPlayerIndex = 0;
+    
+    private boolean kannWürfeln = true;
+    
+    private int aktuellerSpielerIndex = 0;
+    
     private Währung währung;
-    private JLabel[] playerCurrencyLabels;
-    private JLabel[] playerLocationLabels;
+    
 
-    public SpielbrettGui(int anzahlSpieler, Währung währung) {
-        this.währung = währung;
-        setTitle("Bionopoly");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1500, 800);
-        setResizable(false);
+    public SpielbrettGui(int anzahlSpieler, Währung währung) { //Spielbrett wird erzeugt
+    	
+        this.währung = währung; //Varaible deklarieren
+        setTitle("Bionopoly"); //Titel festlegen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Schließt sich beim anklicken des X
+        setSize(1500, 800); //Größe festlegen
+        setResizable(false); //Größe kann nicht verändert werden
         setLayout(new BorderLayout());
+        
+        // Spieler Panels (Pro Spieler wird ein Panel erstellt)
+        JPanel linkesPanel = new JPanel(); //linkes Panel erstellt
+        linkesPanel.setLayout(new BorderLayout());
+        linkesPanel.setPreferredSize(new Dimension(380, getHeight())); //Größe festlegen
 
-        // Spieler Panels Container
-        JPanel leftContainer = new JPanel();
-        leftContainer.setLayout(new BorderLayout());
-        leftContainer.setPreferredSize(new Dimension(380, getHeight()));
+        JPanel rechtesPanel = new JPanel(); //rechts Panel erstellt
+        rechtesPanel.setLayout(new BorderLayout());
+        rechtesPanel.setPreferredSize(new Dimension(376, getHeight())); //Größe festlegen
 
-        JPanel rightContainer = new JPanel();
-        rightContainer.setLayout(new BorderLayout());
-        rightContainer.setPreferredSize(new Dimension(376, getHeight()));
+        JPanel panelLinks = new JPanel();
+        panelLinks.setLayout(new GridLayout(3, 1)); //Anordnung imm inneren des Panels festgelegt
+        panelLinks.setPreferredSize(new Dimension(200, 300)); //Größe festlegen
 
-        // Spieler Panels
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(3, 1));
-        leftPanel.setPreferredSize(new Dimension(200, 300));
+        JPanel panelRechts = new JPanel();
+        panelRechts.setLayout(new GridLayout(3, 1)); //Anordnung imm inneren des Panels festgelegt
+        panelRechts.setPreferredSize(new Dimension(200, 300)); //Größe festlegen
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(3, 1));
-        rightPanel.setPreferredSize(new Dimension(200, 300));
+        // Zusätzliches Panel unten für weitere Anzeigen oder Buttons
+        JPanel panelUntenLinks = new JPanel();
+        panelUntenLinks.setPreferredSize(new Dimension(200, 300)); //Größe festlegen
 
-        // Zusätzliches Panel unten
-        JPanel bottomPanelLeft = new JPanel();
-        bottomPanelLeft.setPreferredSize(new Dimension(200, 300));
+        JPanel panelUntenRechts = new JPanel();
+        panelUntenRechts.setPreferredSize(new Dimension(200, 300)); //Größe festlegen
 
-        JPanel bottomPanelRight = new JPanel();
-        bottomPanelRight.setPreferredSize(new Dimension(200, 300));
+        
+        spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"); //Liste von Spielernamen
 
-        // Liste von Spielernamen
-        spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
-
-        playerCurrencyLabels = new JLabel[anzahlSpieler]; // Anzahl der Spieler
-        playerLocationLabels = new JLabel[anzahlSpieler]; // Labels für Standortanzeige
+        spielerIntelligenzLabel = new JLabel[anzahlSpieler]; //Anzahl der Spieler
 
         // Spieler initialisieren mit individuellen Namen
         for (int i = 0; i < anzahlSpieler; i++) {
-            String spielerName = spielerNamen.get(i); // Name aus der Liste der Spielernamen
+            String spielerName = währung.getSpieler()[i].getName(); //Name aus der Währungsklasse
             if (i < 3) {
-                leftPanel.add(createPlayerPanel(spielerName, i));
+                panelLinks.add(erstelleSpielerPanel(spielerName, i)); //Pro Spieler ein Panel erstellen
             } else {
-                rightPanel.add(createPlayerPanel(spielerName, i));
+                panelRechts.add(erstelleSpielerPanel(spielerName, i)); //Wenn es mehr als drei SPieler sind, Panels auf der Rechten Seite erstellen
             }
         }
 
-        // Container für die Spieler Panels und zusätzliches Panel Ausrichtung
-        leftContainer.add(leftPanel, BorderLayout.CENTER);
-        leftContainer.add(bottomPanelLeft, BorderLayout.SOUTH);
+        //Kontainer für die Spieler Panels und weitere Panels und deren Ausrichtung wurde festgelegt
+        linkesPanel.add(panelLinks, BorderLayout.CENTER);
+        linkesPanel.add(panelUntenLinks, BorderLayout.SOUTH);
 
-        rightContainer.add(rightPanel, BorderLayout.CENTER);
-        rightContainer.add(bottomPanelRight, BorderLayout.SOUTH);
+        rechtesPanel.add(panelRechts, BorderLayout.CENTER);
+        rechtesPanel.add(panelUntenRechts, BorderLayout.SOUTH);
 
-        // Panels in Container einfügen
-        add(leftContainer, BorderLayout.WEST);
-        add(rightContainer, BorderLayout.EAST);
+        //Panels in Kontainer auf bestimmter Seite einfügen
+        add(linkesPanel, BorderLayout.WEST);
+        add(rechtesPanel, BorderLayout.EAST);
 
-        // Spielbrett als Bild mittig einfügen
-        JPanel boardPanel = new JPanel();
-        boardPanel.setPreferredSize(new Dimension(400, 400));
+        JPanel SpielbrettPanel = new JPanel();  //Spielbrett Panel mittig eingefügt
+        SpielbrettPanel.setPreferredSize(new Dimension(400, 400)); //Größe festlegen
 
-        // Bild einfügen (Pfad zum PNG-Bild anpassen)
-        ImageIcon icon = new ImageIcon("spielbrett2.0.png");
-        int imageSize = 730;
-        ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
-        JLabel label = new JLabel(scaledIcon);
+        ImageIcon icon = new ImageIcon("spielbrett2.0.png"); //Bild eingefügt
+        int bildgröße = 730; //Zahl für die Pizelgröße des Spielbretts
+        ImageIcon skalierungIcon = new ImageIcon(icon.getImage().getScaledInstance(bildgröße, bildgröße, Image.SCALE_SMOOTH)); //Bild wird skaliert
+        JLabel label = new JLabel(skalierungIcon);
         label.setBorder(new EmptyBorder(0, 0, 0, 0));
-        boardPanel.add(label);
-        add(boardPanel, BorderLayout.CENTER);
+        SpielbrettPanel.add(label); //Label zum Panel hinzufügel
+        add(SpielbrettPanel, BorderLayout.CENTER); //Das ganze wird ins mittlere Panel eingefügt
 
-        // Würfel GUI erstellen
-        createDicePanel(bottomPanelRight);
-        createInformationPanel(bottomPanelLeft);
+        würfelPanelErstellen(panelUntenRechts);//Würfel Panel erstellt
 
-        // Aktuellen Spieler anzeigen
-        updateCurrentPlayer();
+        updateAktuellerSpieler(); // Aktueller Spieler  wird angezeigt
     }
-   private void createInformationPanel(JPanel panel) {
-	   JLabel fieldInfoLabel = new JLabel("Feldinformation:");
-	   fieldInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	   fieldInfoLabel.setFont(new Font("Arial", Font.BOLD, 20)); 
-	   panel.add(fieldInfoLabel);
-   }
-    // Würfel und Text erstellen
-    private void createDicePanel(JPanel panel) {
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Panel für aktuellen Spieler
+    //Würfel und Aktions-Buttons werden in einem Panel unten rechts erstellt und erhalten ihre Funktionen
+    private void würfelPanelErstellen(JPanel panel) { 
+    	
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //Panel für den aktuellen Spieler
         JPanel namenAnzeige = new JPanel();
-        namenAnzeige.setPreferredSize(new Dimension(400, 30));
-        currentPlayerLabel = new JLabel("Aktueller Spieler: ", SwingConstants.CENTER);
-        currentPlayerLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        namenAnzeige.add(currentPlayerLabel);
+        namenAnzeige.setPreferredSize(new Dimension(400, 30)); // Größe der Panels der Anzeige des aktuellen Spielers
+        aktuellerSpielerLabel = new JLabel("Aktueller Spieler: ", SwingConstants.CENTER); //Text und Positionierung im Panel
+        aktuellerSpielerLabel.setFont(new Font("Arial", Font.PLAIN, 15)); //Schriftart und Schriftgröße
+        namenAnzeige.add(aktuellerSpielerLabel); //Spieleralbel wird zur Namenanzeige hinzugefügt
         panel.add(namenAnzeige);
 
-        // Panel für Würfel
-        JPanel dicePanel = new JPanel();
-        dicePanel.setPreferredSize(new Dimension(400, 100));
+        //Panel für die Würfel
+        JPanel würfelPanel = new JPanel(); //neues Panel für die Würfel hinzugefügt
+        würfelPanel.setPreferredSize(new Dimension(400, 100)); //Größe des Panels der Würfel
 
-        JLabel dice1 = new JLabel("1", SwingConstants.CENTER);
-        dice1.setFont(new Font("Arial", Font.BOLD, 18));
-        dice1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        dice1.setPreferredSize(new Dimension(40, 40));
-        dicePanel.add(dice1);
+        JLabel würfel1 = new JLabel("1", SwingConstants.CENTER); //Erster Wert für den Anfang, Positionierung der Zahl
+        würfel1.setFont(new Font("Arial", Font.BOLD, 18)); //Schriftart und Größe der Zahl auf dem Würfel
+        würfel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); //Outline für den Würfel
+        würfel1.setPreferredSize(new Dimension(40, 40)); //Größe des Würfels
+        würfelPanel.add(würfel1);
 
-        JLabel dice2 = new JLabel("1", SwingConstants.CENTER);
-        dice2.setFont(new Font("Arial", Font.BOLD, 18));
-        dice2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        dice2.setPreferredSize(new Dimension(40, 40));
-        dicePanel.add(dice2);
+        JLabel würfel2 = new JLabel("1", SwingConstants.CENTER); //das selbe füf den 2. Würfel
+        würfel2.setFont(new Font("Arial", Font.BOLD, 18));
+        würfel2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        würfel2.setPreferredSize(new Dimension(40, 40));
+        würfelPanel.add(würfel2);
 
-        panel.add(dicePanel);
+        panel.add(würfelPanel); //Würfel Panel hinzugefügt
 
-        // "Würfeln"-Button
-        JButton rollButton = new JButton("Würfeln");
-        rollButton.setPreferredSize(new Dimension(200, 25));
-        rollButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (canRollDice) {
-                    // Würfeln und Augenzahl anzeigen
-                    int würfel1 = (int) (Math.random() * 6 + 1);
-                    int würfel2 = (int) (Math.random() * 6 + 1);
-                    dice1.setText(String.valueOf(würfel1));
-                    dice2.setText(String.valueOf(würfel2));
-                    augenZahlValue.setText(String.valueOf(würfel1 + würfel2));
-                    canRollDice = false;
-                    if (würfel1 == würfel2) {
-                        JOptionPane.showMessageDialog(panel, "Pasch! Du darfst noch einmal würfeln.");
-                        canRollDice = true; // Pasch erlaubt ein weiteres Würfeln
+        //"Würfeln"-Button
+        JButton würfelButton = new JButton("Würfeln");
+        würfelButton.setPreferredSize(new Dimension(200, 25)); //Festlegung der Größe
+        würfelButton.addActionListener(new ActionListener() { //ActionListener hinzugefügt
+        	
+            public void actionPerformed(ActionEvent e) { //wird ausgeführt wenn Button gedrückt wurde
+            	
+                if (kannWürfeln) {
+                    Würfel würfel = new Würfel(); //Würfel erstellt/importiert
+                    würfel.würfel(); //Würfel aus Würfel-Klasse werden aufgerufen
+                    würfel1.setText(String.valueOf(würfel.getWürfel1())); //Die Werte der Würfel werden gehohlt
+                    würfel2.setText(String.valueOf(würfel.getWürfel2()));
+                    augenZahlValue.setText(String.valueOf(würfel.getAugensumme())); //Die gewürfelte Augenzahl wird angezeigt
+
+                    kannWürfeln = false;
+
+                    if (würfel.istPasch()) {
+                        JOptionPane.showMessageDialog(panel, "Pasch! Du darfst noch einmal würfeln."); //Pop-Up Nachricht
+                        kannWürfeln = true; //nach einem Pasch darf nochmal gewürfelt werden, ein Pop-Up weißt den Spieler darauf hin
                     }
                 } else {
-                    JOptionPane.showMessageDialog(panel, "Du hast bereits gewürfelt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Du hast bereits gewürfelt!", "Fehler", JOptionPane.ERROR_MESSAGE); //Der Spieler darf nicht nochmal würfeln, deshalb taucht ein Pop-Up als Hinweiß auf
                 }
             }
         });
 
-        panel.add(rollButton);
+        panel.add(würfelButton); //Button zum Panel hinzugefügt
 
-        // Panel für gewürfelte Augenzahl
-        JPanel augenZahlPanel = new JPanel();
-        augenZahlPanel.setPreferredSize(new Dimension(400, 30));
-        JLabel augenZahlLabel = new JLabel("Gewürfelte Augenzahl: ");
-        augenZahlPanel.add(augenZahlLabel);
-        augenZahlValue = new JLabel("0"); // Initialwert
+        //Panel für gewürfelte Augenzahl
+        JPanel augenZahlPanel = new JPanel(); //neues Panel erstellt 
+        augenZahlPanel.setPreferredSize(new Dimension(400, 30)); //Größe festgelegt
+        JLabel augenZahlLabel = new JLabel("Gewürfelte Augenzahl: "); //Inhalt des Panels festgelegt
+        augenZahlPanel.add(augenZahlLabel); //Panel zum Label hinzugefügt
+        augenZahlValue = new JLabel("0"); //Wert für den Anfang
         augenZahlPanel.add(augenZahlValue);
-        panel.add(augenZahlPanel);
+        panel.add(augenZahlPanel); //Augenzahl Panel hinzugefügt
 
-        // Panel für Buttons "Fortfahren" und "Zug beenden"
+        //Panel für Buttons "Kaufen" und "Zug beenden"
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(400, 30));
+        buttonPanel.setPreferredSize(new Dimension(400, 30)); //Größe festgelegt
+        
+        //"Kaufen"-Button
+        JButton KaufenButton = new JButton("Kaufen"); //Button zum Kaufen erstellt
+        KaufenButton.addActionListener(new ActionListener() { //ActionListener hinzugefügt
+        	
+            public void actionPerformed(ActionEvent e) { //wird ausgeführt wenn Button gedrückt wurde
+            	
+                Spielfigur aktuellerSpieler = währung.getSpieler()[aktuellerSpielerIndex]; //Wer ist der aktuelle Spieler?
+                Feld aktuellesFeld = aktuellerSpieler.getAktuellesFeld(); //Was ist der Standort des aktuellen Spielers?
+                
+                if (aktuellesFeld.getBesitzer() == null && !aktuellerSpieler.getSpielfeld().getUnkaufbareFelder().contains(aktuellesFeld)) { //Überprüfung ob das Feld zum kaufen zur Verfügung steht
+                    int feldPreis = aktuellesFeld.getPreis();
 
-        JButton KaufenButton = new JButton("Kaufen");
-        KaufenButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Spielfigur currentPlayer = währung.getSpieler()[currentPlayerIndex];
-                Feld currentField = currentPlayer.getAktuellesFeld();
-
-                if (currentField.getBesitzer() == null && !currentPlayer.getSpielfeld().getUnkaufbareFelder().contains(currentField)) {
-                    int fieldPrice = currentField.getPreis();
-
-                    if (currentPlayer.getIntelligenz() >= fieldPrice) {
-                        // Player can afford the field
-                        currentPlayer.setIntelligenz(currentPlayer.getIntelligenz() - fieldPrice);
-                        currentField.setBesitzer(currentPlayer);
-                        playerCurrencyLabels[currentPlayerIndex].setText("Intelligenz: " + currentPlayer.getIntelligenz());
-                        JOptionPane.showMessageDialog(panel, "Du hast das Feld " + currentField.getName() + "erfolgreich gekauft!");
-                    } else {
-                        // Player cannot afford the field
-                        JOptionPane.showMessageDialog(panel, "Du hast nicht genug Intelligenz, um dieses Feld zu kaufen!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    if (aktuellerSpieler.getIntelligenz() >= feldPreis) { //Der Spieler kann sich das Modul leisten
+                        aktuellerSpieler.setIntelligenz(aktuellerSpieler.getIntelligenz() - feldPreis); //Modulpreis wird von Intteligenz abgezogen
+                        aktuellesFeld.setBesitzer(aktuellerSpieler); //Spieler wird zum Besitzer des Moduls
+                        spielerIntelligenzLabel[aktuellerSpielerIndex].setText("Intelligenz: " + aktuellerSpieler.getIntelligenz()); //Menge an Intteligenz des Spielers wird angezeigt
+                        JOptionPane.showMessageDialog(panel, "Du hast das Modul " + aktuellesFeld.getName() + " erfolgreich bestanden!"); //Output erfolgreicher Kauf
+                    } 
+                    else {
+                        JOptionPane.showMessageDialog(panel, "Du hast nicht genug Intelligenz, um dieses Modul zu bestehen!", "Fehler", JOptionPane.ERROR_MESSAGE); //Der Spieler kann sich das Feld nicht leisten
                     }
-                } else {
-                    // Field is either not purchasable or already owned
-                    JOptionPane.showMessageDialog(panel, "Dieses Feld kann nicht gekauft werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                } 
+                else {
+                    JOptionPane.showMessageDialog(panel, "Dieses Feld kann nicht bestanden werden!", "Fehler", JOptionPane.ERROR_MESSAGE); //Das Feld gehöhrt entwerder zu den unkaufbaren Feldern oder ist bereits verkauft
                 }
             }
         });
-        buttonPanel.add(KaufenButton);
-
-        JButton zugBeendenButton = new JButton("Zug beenden");
-        zugBeendenButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        
+        buttonPanel.add(KaufenButton); //Button wird zum Panel hinzugefügt
+        
+        //"Zug Beenden"-Button
+        JButton zugBeendenButton = new JButton("Zug beenden"); //Das steht auf dem Button drauf
+        zugBeendenButton.addActionListener(new ActionListener() { //ActionListener hinzugefügt
+        	
+            public void actionPerformed(ActionEvent e) { //wird ausgeführt wenn Button gedrückt wurde
+            	
                 zugBeenden();
             }
         });
-        buttonPanel.add(zugBeendenButton);
-
-        panel.add(buttonPanel);
+        
+        buttonPanel.add(zugBeendenButton); //Button wird zum Panel hinzugefügt
+        panel.add(buttonPanel); //Panel wird hinzugefügt
     }
 
-    // Methode zum Erstellen eines Spieler-Panels mit anpassbarer Schriftgröße und Position
-    private JPanel createPlayerPanel(String playerName, int playerIndex) {
-        JPanel playerPanel = new JPanel();
-        playerPanel.setPreferredSize(new Dimension(200, 140)); // Höhe erhöht für Platzierung der Währung und des Standorts
-        playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        playerPanel.setLayout(new BorderLayout());
+    //Erstellen eines Spieler-Panels
+    private JPanel erstelleSpielerPanel(String spielerName, int spielerIndex) { //Die Spieler Panel werden durch diese Methode erstellt
+    	
+        JPanel SpielerPanel = new JPanel(); //Name für das Panel
+        SpielerPanel.setPreferredSize(new Dimension(200, 120)); //Höhe erhöht, damit der Rset darunter passt
+        SpielerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Schwarze Outline
+        SpielerPanel.setLayout(new BorderLayout());
 
-        // Label für Spielernamen mit angepasster Schriftgröße
-        JLabel nameLabel = new JLabel(playerName);
-        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Schriftgröße für Spielernamen
-        playerPanel.add(nameLabel, BorderLayout.NORTH);
+        
+        JLabel nameLabel = new JLabel(spielerName); //Label für die Spielernamen
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER); //Festlegung der Ausrichtung des Labels
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16)); //Festlegen der Schriftgröße und Schriftart
+        SpielerPanel.add(nameLabel, BorderLayout.NORTH);//Hinzufügen des Labels zum Spielerpanel
 
-        // Panel für Währungsanzeige
-        JPanel currencyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); // Anpassbare Positionierung
-        currencyPanel.setOpaque(false); // Transparentes Panel für Hintergrund des Währungstextes
+        
+        JPanel IntelligenzPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); //Panel für die Intelligenzanzeige
+        IntelligenzPanel.setOpaque(false); //Transparentes Panel für Hintergrund der Intelligenzanzeige
 
-        // Label für Währung (Intelligenz) mit angepasster Schriftgröße und Textposition
-        JLabel currencyLabel = new JLabel("Intelligenz: " + währung.getSpieler()[playerIndex].getIntelligenz());
-        currencyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        currencyLabel.setFont(new Font("Arial", Font.PLAIN, 14)); // Schriftgröße für Währungsanzeige
-        currencyPanel.add(currencyLabel);
+        //Label für Währung (Intelligenz) mit angepasster Schriftgröße und Textposition
+        JLabel intelligenzLabel = new JLabel("Intelligenz: " + währung.getSpieler()[spielerIndex].getIntelligenz()); //Aktueller Stand der Intelligenz des Spielers wird angezeigt 
+        intelligenzLabel.setHorizontalAlignment(SwingConstants.CENTER);//Festlegung der Ausrichtung des Labels
+        intelligenzLabel.setFont(new Font("Arial", Font.PLAIN, 14)); //Festlegen der Schriftgröße und Schriftart
+        IntelligenzPanel.add(intelligenzLabel); //Label wird zum Panel hinzugefügt
 
-        playerPanel.add(currencyPanel, BorderLayout.EAST); // Hinzufügen zum Spielerpanel
+        SpielerPanel.add(IntelligenzPanel, BorderLayout.CENTER); //Hinzufügen des Labels zum Spielerpanel
 
-        playerCurrencyLabels[playerIndex] = currencyLabel;
+        spielerIntelligenzLabel[spielerIndex] = intelligenzLabel;
 
-        // Panel für Standortanzeige
-        JPanel locationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); // Anpassbare Positionierung
-        locationPanel.setOpaque(false); // Transparentes Panel für Hintergrund des Währungstextes
-
-        // Label für Standort mit angepasster Schriftgröße und Textposition
-        JLabel locationLabel = new JLabel("Aktueller Standort: " + währung.getSpieler()[playerIndex].getAktuellesFeld().getName());
-        locationLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        locationLabel.setFont(new Font("Arial", Font.PLAIN, 14)); // Schriftgröße für Standortanzeige
-        locationPanel.add(locationLabel);
-
-        playerPanel.add(locationPanel, BorderLayout.SOUTH); // Hinzufügen zum Spielerpanel
-
-        playerLocationLabels[playerIndex] = locationLabel;
-
-        // Panel für bestandene Module
-        JPanel ownedFieldsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        ownedFieldsPanel.setOpaque(false);
-
-        JLabel ownedFieldsLabel = new JLabel("Bestandene Module:");
-        ownedFieldsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        ownedFieldsPanel.add(ownedFieldsLabel);
-
-        Spielfigur currentPlayer = währung.getSpieler()[playerIndex];
-        List<Feld> besitz = currentPlayer.getBesitz();
-        for (Feld feld : besitz) {
-            JLabel fieldLabel = new JLabel(feld.getName());
-            fieldLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-            ownedFieldsPanel.add(fieldLabel);
-        }
-
-        playerPanel.add(ownedFieldsPanel, BorderLayout.CENTER);
-
-        return playerPanel;
+        return SpielerPanel;
     }
 
-    private void updateCurrentPlayer() {
-        if (currentPlayerIndex < spielerNamen.size()) {
-            currentPlayerLabel.setText("Aktueller Spieler: " + währung.getSpieler()[currentPlayerIndex].getName());
-            updatePlayerLocation(); // Standortanzeige aktualisieren
+    private void updateAktuellerSpieler() { //Methode für das wechseln von einem Spieler zum nächsten
+        if (aktuellerSpielerIndex < spielerNamen.size()) { //Anzeige nur, solange es Spieler gibt
+            aktuellerSpielerLabel.setText("Aktueller Spieler: " + währung.getSpieler()[aktuellerSpielerIndex].getName()); //Anzeige, wer aktuell drann ist
         }
     }
 
-    private void updatePlayerLocation() {
-        for (int i = 0; i < währung.getSpieler().length; i++) {
-            playerLocationLabels[i].setText("Aktueller Standort: " + währung.getSpieler()[i].getAktuellesFeld().getName());
-        }
-    }
-
-    private void zugBeenden() {
-        canRollDice = true; // Spieler darf wieder würfeln
-        currentPlayerIndex = (currentPlayerIndex + 1) % währung.getSpieler().length;
-        updateCurrentPlayer();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                // Erstellen der Währung und des SpielbrettGui-Objekts
-                Währung währung = new Währung(); // Sie müssen Ihre Währungsklasse entsprechend initialisieren
-                SpielbrettGui spielbrettGui = new SpielbrettGui(4, währung); // Anzahl der Spieler übergeben
-                spielbrettGui.setVisible(true); // GUI sichtbar machen
-            }
-        });
+    private void zugBeenden() { //Methode zum beenden des Zuges
+        kannWürfeln = true; //Der nächste Spieler ist dran darf wieder würfeln
+        aktuellerSpielerIndex = (aktuellerSpielerIndex + 1) % währung.getSpieler().length; //Der aktuelle Spielert wird auf den nächsten Spieler gesetzt
+        updateAktuellerSpieler();
     }
 }
