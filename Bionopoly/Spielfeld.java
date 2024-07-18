@@ -269,7 +269,9 @@ public class Spielfeld extends JPanel {
 
             canRollDice = true; // Nächster Spieler kann würfeln
         }
+        
     }
+    
 
     public void mieteZahlen(Feld feld, Spielfigur spieler) {
         Spieler besitzer = feld.getBesitzer();
@@ -281,6 +283,7 @@ public class Spielfeld extends JPanel {
                 System.out.println(spieler.getName() + " hat " + miete + " Intelligenz an " + besitzer.getName() + " für Nachhilfe in dem Modul " + feld.getName() + " gezahlt.");
             } else {
                 System.out.println(spieler.getName() + " hat nicht genug Intelligenz, um die Nachhilfe zu zahlen.");
+                moduleÜbertragen(spieler, (Spielfigur) besitzer);
                 spieler.spielerPleite(spieler);
                 spielerListe.remove(spieler);
             }
@@ -309,6 +312,16 @@ public class Spielfeld extends JPanel {
 
     public void setCanRollDice(boolean canRollDice) {
         this.canRollDice = canRollDice;
+    }
+    
+    
+    public void moduleÜbertragen(Spielfigur vonSpieler, Spielfigur zuSpieler) {
+        for (Feld feld : getAlleFelder()) {
+            if (feld.getBesitzer() != null && feld.getBesitzer().equals(vonSpieler)) {
+                feld.setBesitzer(zuSpieler);
+                System.out.println("Das Modul '" + feld.getName() + "' wurde von " + vonSpieler.getName() + " an " + zuSpieler.getName() + " übertragen.");
+            }
+        }
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("Spielbrett Übersicht");
