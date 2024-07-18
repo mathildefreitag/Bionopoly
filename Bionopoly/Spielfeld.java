@@ -68,6 +68,10 @@ public class Spielfeld extends JPanel {
     public void setkannWürfeln(boolean kannWürfeln) {
         this.kannWürfeln = kannWürfeln;
     }
+	public void entferneSpieler(Spieler spieler) {
+		spielerListe.remove(spieler);
+	}
+
   
     //Initialisierung der Module
     private void initialisierungModule() {
@@ -336,11 +340,21 @@ public class Spielfeld extends JPanel {
                 System.out.println(aktuellerSpieler.getName() + " hat seinen Zug beendet. Drücken Sie Enter für den nächsten Spieler."); //Ausgabe (in der Konsole)
                 scanner.nextLine();
             }
+            else {
+                //Spieler ist pleite und wird aus der Liste entfernt
+                System.out.println(aktuellerSpieler.getName() + " all seine Intelligenz verloren und muss das Bionik Studium schmeißen.");
+                spielfiguren.remove(aktuellerSpielerIndex);
+                if (spielfiguren.size() == 1) {
+                    break; //Wenn nur noch ein Spieler übrig ist, wird die Schleife beendet
+                }
+                //Den Index anpassen, damit der nächste Spieler richtig angesprochen wird
+                aktuellerSpielerIndex = aktuellerSpielerIndex % spielfiguren.size();
+                continue; //Nächste Runde der Schleife
+            }
 
             aktuellerSpielerIndex = (aktuellerSpielerIndex + 1) % spielfiguren.size();
         }
 
         System.out.println("Das Studium ist beendet. Der Gewinner ist: " + spielfiguren.get(0).getName()+ "und hat so als einziger Spieler das Bionik Studium bezwungen."); //Ausgabe (in der Konsole): Spielende
     }
-
 }
