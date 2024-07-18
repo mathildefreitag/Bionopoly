@@ -1,9 +1,9 @@
 package gui;
 
-import bionopoly.Würfel;
+import bionopoly.Wuerfel;
 import bionopoly.Feld;
 import bionopoly.Spielfigur;
-import bionopoly.Währung;
+import bionopoly.Waehrung;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,10 +26,10 @@ public class SpielbrettGui extends JFrame {
     
     private int aktuellerSpielerIndex = 0;
     
-    private Währung währung;
+    private Waehrung währung;
     
 
-    public SpielbrettGui(int anzahlSpieler, Währung währung) { //Spielbrett wird erzeugt
+    public SpielbrettGui(int anzahlSpieler, Waehrung währung) { //Spielbrett wird erzeugt
     	
         this.währung = währung; //Varaible deklarieren
         setTitle("Bionopoly"); //Titel festlegen
@@ -99,12 +99,12 @@ public class SpielbrettGui extends JFrame {
         SpielbrettPanel.add(label); //Label zum Panel hinzufügel
         add(SpielbrettPanel, BorderLayout.CENTER); //Das ganze wird ins mittlere Panel eingefügt
 
-        würfelPanelErstellen(panelUntenRechts);//Würfel Panel erstellt
+        würfelPanelErstellen(panelUntenRechts);//Wuerfel Panel erstellt
 
         updateAktuellerSpieler(); // Aktueller Spieler  wird angezeigt
     }
 
-    //Würfel und Aktions-Buttons werden in einem Panel unten rechts erstellt und erhalten ihre Funktionen
+    //Wuerfel und Aktions-Buttons werden in einem Panel unten rechts erstellt und erhalten ihre Funktionen
     private void würfelPanelErstellen(JPanel panel) { 
     	
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -116,23 +116,23 @@ public class SpielbrettGui extends JFrame {
         namenAnzeige.add(aktuellerSpielerLabel); //Spieleralbel wird zur Namenanzeige hinzugefügt
         panel.add(namenAnzeige);
 
-        //Panel für die Würfel
-        JPanel würfelPanel = new JPanel(); //neues Panel für die Würfel hinzugefügt
-        würfelPanel.setPreferredSize(new Dimension(400, 100)); //Größe des Panels der Würfel
+        //Panel für die Wuerfel
+        JPanel würfelPanel = new JPanel(); //neues Panel für die Wuerfel hinzugefügt
+        würfelPanel.setPreferredSize(new Dimension(400, 100)); //Größe des Panels der Wuerfel
 
         JLabel würfel1 = new JLabel("1", SwingConstants.CENTER); //Erster Wert für den Anfang, Positionierung der Zahl
-        würfel1.setFont(new Font("Arial", Font.BOLD, 18)); //Schriftart und Größe der Zahl auf dem Würfel
-        würfel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); //Outline für den Würfel
+        würfel1.setFont(new Font("Arial", Font.BOLD, 18)); //Schriftart und Größe der Zahl auf dem Wuerfel
+        würfel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); //Outline für den Wuerfel
         würfel1.setPreferredSize(new Dimension(40, 40)); //Größe des Würfels
         würfelPanel.add(würfel1);
 
-        JLabel würfel2 = new JLabel("1", SwingConstants.CENTER); //das selbe füf den 2. Würfel
+        JLabel würfel2 = new JLabel("1", SwingConstants.CENTER); //das selbe füf den 2. Wuerfel
         würfel2.setFont(new Font("Arial", Font.BOLD, 18));
         würfel2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         würfel2.setPreferredSize(new Dimension(40, 40));
         würfelPanel.add(würfel2);
 
-        panel.add(würfelPanel); //Würfel Panel hinzugefügt
+        panel.add(würfelPanel); //Wuerfel Panel hinzugefügt
 
         //"Würfeln"-Button
         JButton würfelButton = new JButton("Würfeln");
@@ -142,9 +142,9 @@ public class SpielbrettGui extends JFrame {
             public void actionPerformed(ActionEvent e) { //wird ausgeführt wenn Button gedrückt wurde
             	
                 if (kannWürfeln) {
-                    Würfel würfel = new Würfel(); //Würfel erstellt/importiert
-                    würfel.würfel(); //Würfel aus Würfel-Klasse werden aufgerufen
-                    würfel1.setText(String.valueOf(würfel.getWürfel1())); //Die Werte der Würfel werden gehohlt
+                    Wuerfel würfel = new Wuerfel(); //Wuerfel erstellt/importiert
+                    würfel.würfel(); //Wuerfel aus Wuerfel-Klasse werden aufgerufen
+                    würfel1.setText(String.valueOf(würfel.getWürfel1())); //Die Werte der Wuerfel werden gehohlt
                     würfel2.setText(String.valueOf(würfel.getWürfel2()));
                     augenZahlValue.setText(String.valueOf(würfel.getAugensumme())); //Die gewürfelte Augenzahl wird angezeigt
 
@@ -237,7 +237,7 @@ public class SpielbrettGui extends JFrame {
         JPanel IntelligenzPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); //Panel für die Intelligenzanzeige
         IntelligenzPanel.setOpaque(false); //Transparentes Panel für Hintergrund der Intelligenzanzeige
 
-        //Label für Währung (Intelligenz) mit angepasster Schriftgröße und Textposition
+        //Label für Waehrung (Intelligenz) mit angepasster Schriftgröße und Textposition
         JLabel intelligenzLabel = new JLabel("Intelligenz: " + währung.getSpieler()[spielerIndex].getIntelligenz()); //Aktueller Stand der Intelligenz des Spielers wird angezeigt 
         intelligenzLabel.setHorizontalAlignment(SwingConstants.CENTER);//Festlegung der Ausrichtung des Labels
         intelligenzLabel.setFont(new Font("Arial", Font.PLAIN, 14)); //Festlegen der Schriftgröße und Schriftart
