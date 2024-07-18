@@ -305,7 +305,7 @@ public class SpielbrettGui extends JFrame {
 
     private void zugBeenden() { //Methode zum beenden des Zuges
         kannWürfeln = true; //Der nächste Spieler ist dran darf wieder würfeln
-        aktuellerSpielerIndex = (aktuellerSpielerIndex + 1) % währung.getSpieler().length; //Der aktuelle Spielert wird auf den nächsten Spieler gesetzt
+        aktuellerSpielerIndex = (aktuellerSpielerIndex + 1) % währung.getSpieler().length; //Der aktuelle Spieler wird auf den nächsten Spieler gesetzt
         updateAktuellerSpieler();
     }
 }
