@@ -2,7 +2,7 @@ package bionopoly;
 
 import java.util.*; 
 
-public class Würfel {
+public class Wuerfel {
 	
 	//Initialisierung der Variablen
 	private int augensumme;
@@ -16,12 +16,12 @@ public class Würfel {
 		{
 		    würfel1 = rand.nextInt(6) + 1; //Zufallszahl für würfel1 erstellen (deklarieren)
 			würfel2 = rand.nextInt(6) + 1; //Zufallszahl für würfel2 erstellen (deklarieren)
-			this.augensumme = würfel1 + würfel2;//Augensumme der beiden Würfel addieren
+			this.augensumme = würfel1 + würfel2;//Augensumme der beiden Wuerfel addieren
 			
 			//(Ausgabe der Werte)
-			System.out.print("Würfel 1: " + würfel1); //Output der Augenzahl
+			System.out.print("Wuerfel 1: " + würfel1); //Output der Augenzahl
 			System.out.println();
-			System.out.print("Würfel 2: " + würfel2);
+			System.out.print("Wuerfel 2: " + würfel2);
 			System.out.println();
 			System.out.print("Augensumme: " + augensumme + "\n"); //Output der Augensumme
 			
