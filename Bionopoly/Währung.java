@@ -2,23 +2,26 @@ package bionopoly;
 
 public class Währung {
     
+	//Intitialisierung verschiedener Variablen etc. 
     private Spielfeld[][] feld;
     private Spielfigur[] spieler; 
+    
     private int startgeld;
     private int überStart;
-    private int transaktion;
 
     
     public Währung() {
     	
     }
     
-    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int überStart, int transaktion) { //Konstrukter mit den Parametern Spielfeld, Spielfigur,ÜberStart und Transaktion
+    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int überStart) { //Konstrukter mit den Parametern Spielfeld, Spielfigur,ÜberStart und Transaktion
+    	
+    	//Deklarierung einiger Variablen
         this.feld = feld;
         this.spieler = spieler;
         this.überStart = überStart;
-        this.transaktion = transaktion;
     }
+    
     //Getter und Setter für verschiedene Methoden
     public void setStartgeld(int startgeld) { 
     	this.startgeld = startgeld;
@@ -50,14 +53,6 @@ public class Währung {
 
     public void setÜberStart(int überStart) {
         this.überStart = überStart;
-    }
-
-    public int getTransaktion() {
-        return transaktion;
-    }
-
-    public void setTransaktion(int transaktion) {
-        this.transaktion = transaktion;
     }
 
     public void initialisiereSpieler() { //Methode die ein Startkapital für die Spieler festlegt
