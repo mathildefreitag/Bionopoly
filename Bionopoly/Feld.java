@@ -22,13 +22,16 @@ public class Feld extends JLabel {
     private String name;
     private List<Spielfigur> spielfiguren = new ArrayList<>();
     private static ArrayList<Feld> alleFelder = new ArrayList<>();
+    private Color feldColor; // Add color attribute
 
-    public Feld(int x, int y, int width, int height, String name, int rotation) {
+    public Feld(int x, int y, int width, int height, String name, int rotation, Color feldColor) {
         this.name = name;
         this.index = index;
         this.rotation = rotation;
         this.preis = 0;
         this.miete = 0;
+        this.feldColor = feldColor;
+        this.besitzer = null;
 
         setLayout(null);
         JLabel nameLabel = new JLabel(name);
@@ -36,7 +39,7 @@ public class Feld extends JLabel {
         add(nameLabel);
         setBounds(x, y, width, height);
         setOpaque(true);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(feldColor);
         setHorizontalAlignment(SwingConstants.CENTER);
         setVerticalAlignment(SwingConstants.CENTER);
     }
@@ -66,7 +69,11 @@ public class Feld extends JLabel {
     }
 
     public void setBesitzer(Spieler besitzer) {
-        this.besitzer = besitzer;
+        if (this.besitzer == null) {
+            this.besitzer = besitzer;
+        } else {
+            throw new UnsupportedOperationException("Das Feld hat bereits einen Besitzer.");
+        }
     }
 
     public int getIndex() {
@@ -95,12 +102,17 @@ public class Feld extends JLabel {
         double y = getHeight() / 2.0;
         aT.rotate(Math.toRadians(rotation), x, y);
         g2.setTransform(aT);
+        
+        int boxWidth = 50;
+        int boxHeight = 20;
+        int padding = 10;
         g2.setClip(oldshape);
         super.paintComponent(g);
         g2.setTransform(aT);
         super.paintComponent(g);
         // Paint each player's figure as a colored square
         for (Feld feld : alleFelder) {
+        	g2.setColor(feld.feldColor);
             for (Spielfigur figur : spielfiguren) {
                 g2.setColor(Color.BLACK);
                 g2.fillRect(feld.getX(), feld.getY(), 200, 200); // Adjust size as needed
