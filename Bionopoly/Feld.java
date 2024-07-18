@@ -113,10 +113,20 @@ public class Feld extends JLabel {
         // Paint each player's figure as a colored square
         for (Feld feld : alleFelder) {
         	g2.setColor(feld.feldColor);
-            for (Spielfigur figur : spielfiguren) {
-                g2.setColor(Color.BLACK);
-                g2.fillRect(feld.getX(), feld.getY(), 200, 200); // Adjust size as needed
-            }
+        	g2.fillRect(feld.getX(), feld.getY(), 200, 200); // Anpassen der Größe nach Bedarf
         }
+
+        // Spielfiguren zeichnen
+        for (Spielfigur figur : spielfiguren) {
+            g2.setColor(figur.getFarbe());
+            int rectSize = 50; // Size of the player's figure rectangle
+            int xPos = (getWidth() - rectSize) / 2; // Centered horizontally
+            int yPos = (getHeight() - rectSize) / 2; // Centered vertically
+            g2.fillRect(xPos, yPos, rectSize, rectSize);
+        }
+
+        
+
+        g2.setTransform(aT); // Zurücksetzen der Transformation für andere Zeichnungen
     }
 }
