@@ -12,16 +12,23 @@ import bionopoly.Spielfigur;
 import bionopoly.Währung;
 
 public class StartbildschirmGui extends JPanel {
+	
     private JButton startButton;
     private JButton beendenButton;
+    
     private JComboBox<String> spielerAnzahlComboBox;
-    private int anzahlSpieler;
+
     private List<String> spielerNamen;
+    
+    private int anzahlSpieler;
+    
+    
+    private static final Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; // Definiert eine Liste von Farben für die Spielfiguren
 
-    // Definiere eine Liste von Farben für die Spielfiguren
-    private static final Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
-
+    
+   
     public StartbildschirmGui() {
+    	
         setLayout(new GridBagLayout());
         setBackground(Color.LIGHT_GRAY);
 
@@ -37,43 +44,41 @@ public class StartbildschirmGui extends JPanel {
         startButton.setBackground(Color.GREEN);
         startButton.setPreferredSize(new Dimension(120, 30));
         startButton.addActionListener(new ActionListener() {
+        	
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedAnzahl = (String) spielerAnzahlComboBox.getSelectedItem();
                 anzahlSpieler = Integer.parseInt(selectedAnzahl.substring(0, 1));
 
-                // Initialisiere Spielernamen
-                spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");
+                spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein");// Initialisiert Spielernamen
 
-                // Initialisiere Währung und Spielfeld
-                Währung währung = new Währung();
-                Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612);
+                Währung währung = new Währung();                       // Initialisieret Währung
+                Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612); // Initialisieret Spielfeld
                 Spielfigur[] spieler = new Spielfigur[anzahlSpieler];
 
                 for (int i = 0; i < anzahlSpieler; i++) {
-                    // Wähle eine Farbe für den Spieler basierend auf dem Index
                     Color farbe = farben[i % farben.length];
-                    spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0), farbe);
+                    spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0), farbe, währung); // Wählt eine Farbe für den Spieler basierend auf der Position in der Liste
                 }
 
                 währung.setSpieler(spieler);
 
-                // Erzeuge und zeige das SpielbrettGui-Fenster
+                // Erzeuget und zeigt das SpielbrettGui-Fenster
                 SwingUtilities.invokeLater(() -> {
                     SpielbrettGui spielbrettGui = new SpielbrettGui(anzahlSpieler, währung);
                     spielbrettGui.setVisible(true);
                 });
-
-                // Schließe das Startbildschirm-Fenster
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this);
+                
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this); // Schließt das Startbildschirm-Fenster
                 frame.dispose();
             }
         });
 
-        beendenButton = new JButton("Beenden");
+        beendenButton = new JButton("Beenden");                  // Erstellt einen Beenden Button, durch den das Fenster geschlossen werden kann
         beendenButton.setBackground(Color.RED);
         beendenButton.setPreferredSize(new Dimension(120, 30));
         beendenButton.addActionListener(new ActionListener() {
+        	
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -105,6 +110,7 @@ public class StartbildschirmGui extends JPanel {
         add(beendenButton, gbc);
     }
 
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Startbildschirm");
