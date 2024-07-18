@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Spieler {
-	
+
+	//Intitalisierung der Variablen, Listen etc.
     private String name;
     
     private int intelligenz;
@@ -26,6 +27,7 @@ public class Spieler {
         this.spielfeld = spielfeld;
     }
 
+    //Getter und Setter für verschiedene Methoden
     public String getName() {
         return name;
     }
@@ -66,10 +68,10 @@ public class Spieler {
 
     //Methode zum Kaufen/Bestehen eines Moduls
     public void feldKaufen(Feld feld) {
-        if (!hatBesitzer(feld) && !spielfeld.getUnkaufbareFelder().contains(feld)) {
-            System.out.println("Möchtest du " + feld.getPreis() + " Intelligenz in das Modul " + feld.getName() + " investieren? (Ja/Nein)");
-            Scanner scanner = new Scanner(System.in);
-            String antwort = scanner.nextLine();
+        if (!hatBesitzer(feld) && !spielfeld.getUnkaufbareFelder().contains(feld)) { //Falls das Feld keinen Besitzer hat und nicht zu den Unkaufbaren Feldern gehöhrt, wird diese Schleife durchgeführt
+            System.out.println("Möchtest du " + feld.getPreis() + " Intelligenz in das Modul " + feld.getName() + " investieren? (Ja/Nein)"); //Kaufoption anzeigen
+            Scanner scanner = new Scanner(System.in); //neuer Scanner wird hinzugefügt
+            String antwort = scanner.nextLine(); //es wird gescannt, was der Spieler in der Konsole antwortet
 
             if (antwort.equalsIgnoreCase("ja")) { //wenn sich der Spieler entscheidet das Modul zu kaufen bzw. zu belegen 
                 if (intelligenz >= feld.getPreis()) { //wird geprüft ob genug Intelligenz vorhanden ist
