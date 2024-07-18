@@ -58,9 +58,9 @@ public class StartbildschirmGui extends JPanel {
 
                 währung.setSpieler(spieler);
 
-                // Erzeuge und zeige das SpielbrettGui2-Fenster
+                // Erzeuge und zeige das SpielbrettGui-Fenster
                 SwingUtilities.invokeLater(() -> {
-                    SpielbrettGui2 spielbrettGui = new SpielbrettGui2(anzahlSpieler, währung);
+                    SpielbrettGui spielbrettGui = new SpielbrettGui(anzahlSpieler, währung);
                     spielbrettGui.setVisible(true);
                 });
 
