@@ -8,6 +8,7 @@ import gui.SpielfigurGui;
 
 public class Spielfigur extends Spieler {
 	
+	//Initialisierung der Variablen, Listen etc.
 	private Feld aktuellesFeld;
     private Spielfeld spielfeld;
     private static SpielfigurGui gui;
@@ -26,16 +27,17 @@ public class Spielfigur extends Spieler {
     private static List<Feld> spielfigurenFelder = new ArrayList<>(); //Liste, die die aktuellen Felder aller Spielfiguren speichert
 
     public Spielfigur(String name, Feld startFeld, Color farbe, Währung währung) {
-        super(name, 1500, null);
+        super(name, 1500, null); //wegen "extends Spieler"
         this.name = name;
-        this.intelligenz = währung.getStartgeld(); //Startkapital
+        this.intelligenz = währung.getStartgeld(); //Startkapital auf Währungsklasse geu´zogen
         this.pleite = false;
-        this.aktuellesFeld = spielfeld.getFeld(0);
+        this.aktuellesFeld = spielfeld.getFeld(0); //Startfeld festgelegt
         this.farbe = farbe;
         spielfigurenFelder.add(startFeld); //Initialisierung des Startfeldes
         
     }
     
+    //Getter und Setter verschiedener Methoden
     public Color getFarbe() {
         return farbe;
     }
@@ -62,7 +64,6 @@ public class Spielfigur extends Spieler {
     public void reduzierungNachprüfungVersuche() {
         this.nachprüfungsVersuche--;
     }
-
 
     public void setGui(SpielfigurGui gui) {
         this.gui = gui;
@@ -91,7 +92,7 @@ public class Spielfigur extends Spieler {
     public void setAktuellesFeld(Feld aktuellesFeld) {
         this.aktuellesFeld = aktuellesFeld;
         if (gui != null) {
-            gui.verschiebeSpielfigur(name, aktuellesFeld.getX(), aktuellesFeld.getY());
+            gui.verschiebeSpielfigur(name, aktuellesFeld.getX(), aktuellesFeld.getY()); //Spielfigur soll auf der Gui verschoben werden, funktioniert leider nicht
         }
     }
 
@@ -101,7 +102,7 @@ public class Spielfigur extends Spieler {
 
     public void landeAufFeld(Feld feld) {
         this.aktuellesFeld = feld;
-        aktualisiereFeldInListe(feld);  
+        aktualisiereFeldInListe(feld);  //soll aktuellen Standort speichern, funktioniert leider nicht
     }
 
     public void felderVorrücken(int augensumme) {
@@ -124,19 +125,19 @@ public class Spielfigur extends Spieler {
 
     //Methode um den Zug zu beenden
     public void zugBeenden() {
-        System.out.println(name + " hat seinen Zug beendet.");
+        System.out.println(name + " hat seinen Zug beendet."); //Output zum beenden des Zuges
     }
    
 
-    public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui, Währung währung) {
-        ArrayList<Spielfigur> spielfiguren = new ArrayList<>();
+    public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui, Währung währung) { //Liste in welcher Atribute der Figuren festgelegt werden
+        ArrayList<Spielfigur> spielfiguren = new ArrayList<>(); //neue Liste erstellt
 
         String[] namen = {"Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"}; //Namen der Spielfiguren werden festgelegt
         Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; //Farben der Spielfiguren werden festgelegt
 
         for (int i = 0; i < namen.length; i++) {
-            Spielfigur figur = new Spielfigur(namen[i], spielfeld.feldAmOrt(0), farben[i], währung); //Spielfiguren werden auf dem Startfeld hinzugefügt
-            spielfiguren.add(figur);
+            Spielfigur figur = new Spielfigur(namen[i], spielfeld.feldAmOrt(0), farben[i], währung); //Spielfiguren werden auf dem Startfeld initialisiert
+            spielfiguren.add(figur); //Spielfiguren werden hinzugefügt
             figur.setSpielfeld(spielfeld);
             figur.setGui(gui);
         }
