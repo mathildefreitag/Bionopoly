@@ -3,83 +3,70 @@ package bionopoly;
 public class Währung {
     
     private Spielfeld[][] feld;
-    private Spielfigur[] spieler; // Nicht static machen, damit jedes Währungsobjekt sein eigenes Spieler-Array hat
+    private Spielfigur[] spieler; 
     private int startgeld;
     private int überStart;
     private int transaktion;
 
-    // Standardkonstruktor
+    
     public Währung() {
     	
     }
     
-    // Konstruktor mit Parametern
-    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int überStart, int transaktion) {
+    public Währung(Spielfeld[][] feld, Spielfigur[] spieler, int überStart, int transaktion) { //Konstrukter mit den Parametern Spielfeld, Spielfigur,ÜberStart und Transaktion
         this.feld = feld;
         this.spieler = spieler;
         this.überStart = überStart;
         this.transaktion = transaktion;
     }
-    
-    // Setzen des Startgelds
-    public void setStartgeld(int startgeld) {
+    //Getter und Setter für verschiedene Methoden
+    public void setStartgeld(int startgeld) { 
     	this.startgeld = startgeld;
     }
 
-    // Rückgabe des Spielfelds
-    public Spielfeld[][] getFeld() {
+    public Spielfeld[][] getFeld() { 
         return feld;
     }
 
-    // Setzen des Spielfelds
     public void setFeld(Spielfeld[][] feld) {
         this.feld = feld;
     }
 
-    // Rückgabe der Spieler
     public Spielfigur[] getSpieler() {
 		return spieler;
     }
 
-    // Setzen der Spieler
     public void setSpieler(Spielfigur[] spieler) {
         this.spieler = spieler;
     }
 
-    // Rückgabe des Startgelds
     public int getStartgeld() {
         return startgeld;
     }
 
-    // Rückgabe des Über-Start-Felds
     public int getÜberStart() {
         return überStart;
     }
 
-    // Setzen des Über-Start-Felds
     public void setÜberStart(int überStart) {
         this.überStart = überStart;
     }
 
-    // Rückgabe der Transaktion
     public int getTransaktion() {
         return transaktion;
     }
 
-    // Setzen der Transaktion
     public void setTransaktion(int transaktion) {
         this.transaktion = transaktion;
     }
 
-    // Methode zur Initialisierung der Spieler mit StartIntelligenz
-    public void initialisiereSpieler() {
+    public void initialisiereSpieler() { //Methode die ein Startkapital für die Spieler festlegt
         for (Spielfigur s : spieler) {
-            s.setIntelligenz(1500); // Jeder Spieler erhält 1500 Währung als StartIntelligenz
+            s.setIntelligenz(1500); //Jeder Spieler erhält 1500 Intelligenz als Startkapital
         }
     }
 
-    // Methode, die einem Spieler 200 Währung gibt, wenn er über das Startfeld kommt
-    public void überStart(Spielfigur spieler) {
-        spieler.setIntelligenz(spieler.getIntelligenz() + 200); // Spieler erhält 200 Währung
+    public void überStart(Spielfigur spieler) { //Methode die den Spielern 200 Intelligenzpunkte gibt wenn sie über Start ziehen
+        spieler.setIntelligenz(spieler.getIntelligenz() + 200); //Spieler erhält 200 Intelligenz wenn er über das Startfeld zieht
     }
 }
