@@ -171,7 +171,7 @@ public class Spielfeld extends JPanel {
 
         if (spieler.isInNachpruefung()) { //Spieler ist auf Nachprüfungsfeld
             if (spieler.getNachprüfungsVersuche() > 0) { //Wenn noch nicht alle Nachprüfungsversuche verbraucht sind, kann der Spieler versuchen sich rauszuwürfeln
-                Würfel würfel = new Würfel();
+                Wuerfel würfel = new Wuerfel();
                 würfel.würfel();
                 int würfel1 = würfel.getWürfel1();
                 int würfel2 = würfel.getWürfel2();
@@ -194,7 +194,7 @@ public class Spielfeld extends JPanel {
             }
         } 
         else {
-            Würfel würfel = new Würfel();
+            Wuerfel würfel = new Wuerfel();
             würfel.würfel();
             int augensumme = würfel.getAugensumme(); //holt die Augensumme aus der Würfelklasse
             spieler.felderVorrücken(augensumme); //Spieler rückt um die Zahl der Augensumme vor
@@ -319,7 +319,7 @@ public class Spielfeld extends JPanel {
         frame.add(spielfeld); //Rahmen außenrum
         frame.setVisible(true); //Rahmen wird sichtbar gemacht
         
-        Währung währung = new Währung();
+        Waehrung währung = new Waehrung();
 
         SpielfigurGui gui = new SpielfigurGui();
         ArrayList<Spielfigur> spielfiguren = Spielfigur.initSpielfiguren(spielfeld, gui, währung); //Array Liste für die Spielfiguren
