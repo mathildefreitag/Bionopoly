@@ -23,16 +23,16 @@ public class Spielfigur extends Spieler {
     private Color farbe;
  
     
-    private static List<Feld> spielfigurenFelder = new ArrayList<>(); // Liste, die die aktuellen Felder aller Spielfiguren speichert
+    private static List<Feld> spielfigurenFelder = new ArrayList<>(); //Liste, die die aktuellen Felder aller Spielfiguren speichert
 
     public Spielfigur(String name, Feld startFeld, Color farbe, Währung währung) {
         super(name, 1500, null);
         this.name = name;
-        this.intelligenz = währung.getStartgeld(); // Startkapital
+        this.intelligenz = währung.getStartgeld(); //Startkapital
         this.pleite = false;
         this.aktuellesFeld = spielfeld.getFeld(0);
         this.farbe = farbe;
-        spielfigurenFelder.add(startFeld); // Initialisierung des Startfeldes
+        spielfigurenFelder.add(startFeld); //Initialisierung des Startfeldes
         
     }
     
@@ -106,14 +106,15 @@ public class Spielfigur extends Spieler {
 
     public void felderVorrücken(int augensumme) {
         if (spielfeld == null) {
-            throw new IllegalStateException("Spielfeld wurde nicht initialisiert.");
+            throw new IllegalStateException("Spielfeld wurde nicht initialisiert."); //Wenn vorher ein Fehler passiert ist und das Spielfeld nicht innitialisiert wurde
         }
-        int aktuellerIndex = aktuellesFeld.getIndex();  // Berechnet den neuen Index basierend auf dem aktuellen Feld
+        int aktuellerIndex = aktuellesFeld.getIndex();  //Berechnet den neuen Index basierend auf dem aktuellen Feld
         int neuesFeldIndex = (aktuellerIndex + augensumme) % spielfeld.getAlleFelder().size();
         Feld neuesFeld = spielfeld.feldAmOrt(neuesFeldIndex);
-        setAktuellesFeld(neuesFeld); // Aktuelles Feld  wird aktualisiert
+        setAktuellesFeld(neuesFeld); //Aktuelles Feld  wird aktualisiert
     }
 
+    //Methode zum Aktualisieren der Spielerpositionen: Funktioniert nicht
     private void aktualisiereFeldInListe(Feld neuesFeld) {
         int index = spielfigurenFelder.indexOf(aktuellesFeld);
         if (index != -1) {
@@ -121,6 +122,7 @@ public class Spielfigur extends Spieler {
         }
     }
 
+    //Methode um den Zug zu beenden
     public void zugBeenden() {
         System.out.println(name + " hat seinen Zug beendet.");
     }
@@ -129,8 +131,8 @@ public class Spielfigur extends Spieler {
     public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui, Währung währung) {
         ArrayList<Spielfigur> spielfiguren = new ArrayList<>();
 
-        String[] namen = {"Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"}; // Namen der Spielfiguren werden festgelegt
-        Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; // Farben der Spielfiguren werden festgelegt
+        String[] namen = {"Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"}; //Namen der Spielfiguren werden festgelegt
+        Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; //Farben der Spielfiguren werden festgelegt
 
         for (int i = 0; i < namen.length; i++) {
             Spielfigur figur = new Spielfigur(namen[i], spielfeld.feldAmOrt(0), farben[i], währung); //Spielfiguren werden auf dem Startfeld hinzugefügt
