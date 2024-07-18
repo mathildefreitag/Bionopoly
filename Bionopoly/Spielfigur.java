@@ -26,7 +26,7 @@ public class Spielfigur extends Spieler {
     
     private static List<Feld> spielfigurenFelder = new ArrayList<>(); //Liste, die die aktuellen Felder aller Spielfiguren speichert
 
-    public Spielfigur(String name, Feld startFeld, Color farbe, Währung währung) {
+    public Spielfigur(String name, Feld startFeld, Color farbe, Waehrung währung) {
         super(name, 1500, null); //wegen "extends Spieler"
         this.name = name;
         this.intelligenz = währung.getStartgeld(); //Startkapital auf Währungsklasse geu´zogen
@@ -129,7 +129,7 @@ public class Spielfigur extends Spieler {
     }
    
 
-    public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui, Währung währung) { //Liste in welcher Atribute der Figuren festgelegt werden
+    public static ArrayList<Spielfigur> initSpielfiguren(Spielfeld spielfeld, SpielfigurGui gui, Waehrung währung) { //Liste in welcher Atribute der Figuren festgelegt werden
         ArrayList<Spielfigur> spielfiguren = new ArrayList<>(); //neue Liste erstellt
 
         String[] namen = {"Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"}; //Namen der Spielfiguren werden festgelegt
