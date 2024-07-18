@@ -18,6 +18,9 @@ public class Spielfigur extends Spieler {
     private static SpielfigurGui gui;
     private Color farbe;
     private Point position;
+    private boolean inNachpruefung;
+    private int nachpruefungVersuche;
+
 
     // Statische Liste, die die aktuellen Felder aller Spielfiguren speichert
     private static List<Feld> spielfigurenFelder = new ArrayList<>();
@@ -27,7 +30,7 @@ public class Spielfigur extends Spieler {
         this.name = name;
         this.intelligenz = 1500; // Startkapital
         this.pleite = false;
-        this.aktuellesFeld = startFeld;
+        this.aktuellesFeld = spielfeld.getFeld(0);
         this.farbe = farbe;
         spielfigurenFelder.add(startFeld); // Initialisiere das Startfeld in der Liste
         this.position = new Point(startFeld.getX(), startFeld.getY());
@@ -96,6 +99,26 @@ public class Spielfigur extends Spieler {
     public void setSpielfeld(Spielfeld spielfeld) {
         this.spielfeld = spielfeld;
     }
+    public boolean isInNachpruefung() {
+        return inNachpruefung;
+    }
+
+    public void setInNachpruefung(boolean inNachpruefung) {
+        this.inNachpruefung = inNachpruefung;
+    }
+
+    public int getNachpruefungVersuche() {
+        return nachpruefungVersuche;
+    }
+
+    public void setNachpruefungVersuche(int nachpruefungVersuche) {
+        this.nachpruefungVersuche = nachpruefungVersuche;
+    }
+
+    public void decreaseNachpruefungVersuche() {
+        this.nachpruefungVersuche--;
+    }
+
 
     public void setGui(SpielfigurGui gui) {
         this.gui = gui;
