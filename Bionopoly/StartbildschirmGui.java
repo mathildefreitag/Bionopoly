@@ -13,6 +13,7 @@ import bionopoly.Währung;
 
 public class StartbildschirmGui extends JPanel {
 	
+	//Initialisierung verschiederner Variablen, Listen etc.
     private JButton startButton;
     private JButton beendenButton;
     
@@ -22,11 +23,9 @@ public class StartbildschirmGui extends JPanel {
     
     private int anzahlSpieler;
     
-    
-    private static final Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; // Definiert eine Liste von Farben für die Spielfiguren
+    private static final Color[] farben = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA}; //Definiert eine Liste von Farben für die Spielfiguren
 
     
-   
     public StartbildschirmGui() {
     	
         setLayout(new GridBagLayout()); //Startbildschirmlayout
@@ -69,8 +68,8 @@ public class StartbildschirmGui extends JPanel {
                     spielbrettGui.setVisible(true);
                 });
                 
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this); //Schließt das Startbildschirm-Fenster
-                frame.dispose();
+                JFrame fenster = (JFrame) SwingUtilities.getWindowAncestor(StartbildschirmGui.this); //Schließt das Startbildschirm-Fenster
+                fenster.dispose();
             }
         });
 
@@ -85,48 +84,48 @@ public class StartbildschirmGui extends JPanel {
             }
         });
 
-        GridBagConstraints gbc = new GridBagConstraints(); //Dadurch wird die Position und Ausrichtung der einzelnen Startbildschirmkomponenten spezifiziert
-        gbc.gridx = 0; //Für Willkommenslabel Gitterposition (Spalte) auf wird 0 gesetzt
-        gbc.gridy = 0; //Für Willkommenslabel Gitterposition (Zeile) wird auf 0 gesetzt
-        gbc.insets = new Insets(50, 0, 20, 0); //äußere Abstände um das Willkommenslabel
-        add(willkommenLabel, gbc); //Label wird an der spezifizierten Position im Layout hinzugefügt
+        GridBagConstraints gitter = new GridBagConstraints(); //Dadurch wird die Position und Ausrichtung der einzelnen Startbildschirmkomponenten spezifiziert
+        gitter.gridx = 0; //Für Willkommenslabel Gitterposition (Spalte) auf wird 0 gesetzt
+        gitter.gridy = 0; //Für Willkommenslabel Gitterposition (Zeile) wird auf 0 gesetzt
+        gitter.insets = new Insets(50, 0, 20, 0); //äußere Abstände um das Willkommenslabel
+        add(willkommenLabel, gitter); //Label wird an der spezifizierten Position im Layout hinzugefügt
 
-        gbc.gridy = 1; //Gitterposition (Zeile) auf 1, damit es unter dem Willkommenslabel eingefügt wird
-        gbc.insets = new Insets(10, 0, 10, 0); //äußere Abstände um das Spieleranzahllabel
-        add(spielerAnzahlLabel, gbc); //Spieleranzahllabel wird an der spezifizierten Position im Layout hinzugefügt
+        gitter.gridy = 1; //Gitterposition (Zeile) auf 1, damit es unter dem Willkommenslabel eingefügt wird
+        gitter.insets = new Insets(10, 0, 10, 0); //äußere Abstände um das Spieleranzahllabel
+        add(spielerAnzahlLabel, gitter); //Spieleranzahllabel wird an der spezifizierten Position im Layout hinzugefügt
 
-        gbc.gridx = 1; //Gitterposition (Spalte) auf 1, um Auswahlbox neben Spieleranzahllabel zu positionieren
-        add(spielerAnzahlComboBox, gbc); //Fügt die Auswahlbox an der spezifizierten Position im Layout hinzu
+        gitter.gridx = 1; //Gitterposition (Spalte) auf 1, um Auswahlbox neben Spieleranzahllabel zu positionieren
+        add(spielerAnzahlComboBox, gitter); //Fügt die Auswahlbox an der spezifizierten Position im Layout hinzu
 
-        gbc.gridx = 0; //Gitterposition (Spalte) wird auf 0 zurückgesetzt
-        gbc.gridy = 2; //Gitterposition (Zeile) wird auf 2 gesetzt, damit Startbutton unter die Auswahlbox eingefügt wird
-        gbc.gridwidth = 2; //Breite des Startbuttons ist über 2 Gitterspalten
-        gbc.anchor = GridBagConstraints.CENTER; //Startbuttonposition wird festgelegt, dass dieser mittig ist
-        gbc.insets = new Insets(20, 0, 0, 0); //äußere Abstände um den Startbutton
-        add(startButton, gbc); //Startbutton wird an spezifizierter Position im Layout hinzugefügt
+        gitter.gridx = 0; //Gitterposition (Spalte) wird auf 0 zurückgesetzt
+        gitter.gridy = 2; //Gitterposition (Zeile) wird auf 2 gesetzt, damit Startbutton unter die Auswahlbox eingefügt wird
+        gitter.gridwidth = 2; //Breite des Startbuttons ist über 2 Gitterspalten
+        gitter.anchor = GridBagConstraints.CENTER; //Startbuttonposition wird festgelegt, dass dieser mittig ist
+        gitter.insets = new Insets(20, 0, 0, 0); //äußere Abstände um den Startbutton
+        add(startButton, gitter); //Startbutton wird an spezifizierter Position im Layout hinzugefügt
 
-        gbc.gridy = 3; //Gitterposition (Zeile) auf 3 damit der Beendenbutton unter dem Startbutton platziert wird
-        gbc.insets = new Insets(10, 0, 50, 0); //äußere Abstände um den Beendenbutton
-        add(beendenButton, gbc); //Beendenbutton wird an spezifizierter Position im Layout hinzugefügt
+        gitter.gridy = 3; //Gitterposition (Zeile) auf 3 damit der Beendenbutton unter dem Startbutton platziert wird
+        gitter.insets = new Insets(10, 0, 50, 0); //äußere Abstände um den Beendenbutton
+        add(beendenButton, gitter); //Beendenbutton wird an spezifizierter Position im Layout hinzugefügt
     }
 
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Startbildschirm"); //Neues JFrame mit dem Namen Startbildschirm wird erstellt
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Fenster kann nur durch Beendenbutton geschlossen werden, "Standardkreuz" zum schließen von Bildschirmfenstern wird entfernt
-            frame.setResizable(false); //Größe des Bildschirmfenster kann nicht verändert werden
-            frame.getContentPane().add(new StartbildschirmGui()); //StarbildschirmGui wird dem JFRame hinzugefügt und somit die darin initialisierten Komponente angezeigt
+            JFrame fenster = new JFrame("Startbildschirm"); //Neues JFrame mit dem Namen Startbildschirm wird erstellt
+            fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Fenster kann nur durch Beendenbutton geschlossen werden, "Standardkreuz" zum schließen von Bildschirmfenstern wird entfernt
+            fenster.setResizable(false); //Größe des Bildschirmfenster kann nicht verändert werden
+            fenster.getContentPane().add(new StartbildschirmGui()); //StarbildschirmGui wird dem JFRame hinzugefügt und somit die darin initialisierten Komponente angezeigt
 
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Bildschirmenster wird im Vollbild angezeigt
-            frame.setUndecorated(true); //"Fensterdekoration" (z.B. Titel,Rahmen, usw.) wird entfernt, damit Vollbildmodus sauber angezeigt wird
+            fenster.setExtendedState(JFrame.MAXIMIZED_BOTH); //Bildschirmenster wird im Vollbild angezeigt
+            fenster.setUndecorated(true); //"Fensterdekoration" (z.B. Titel,Rahmen, usw.) wird entfernt, damit Vollbildmodus sauber angezeigt wird
 
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //Bildschirmgröße wird abgerufen
-            int centerX = screenSize.width / 2; //X-Koordinate für die Zentrierung des Fensters wird berechnet
-            int centerY = screenSize.height / 2; //Y-Koordinate für die Zentrierung des Fensters wird berechnet
-            frame.setLocation(centerX - frame.getWidth() / 2, centerY - frame.getHeight() / 2); //Die Position des Fensters wird auf die berechnete Mitte des Bildschirms gesetzt
+            Dimension bildschrimGröße = Toolkit.getDefaultToolkit().getScreenSize(); //Bildschirmgröße wird abgerufen
+            int mitteX = bildschrimGröße.width / 2; //X-Koordinate für die Zentrierung des Fensters wird berechnet
+            int mitteY = bildschrimGröße.height / 2; //Y-Koordinate für die Zentrierung des Fensters wird berechnet
+            fenster.setLocation(mitteX - fenster.getWidth() / 2, mitteY - fenster.getHeight() / 2); //Die Position des Fensters wird auf die berechnete Mitte des Bildschirms gesetzt
 
-            frame.setVisible(true); //Macht das Startbildschirmfenster sichtbar
+            fenster.setVisible(true); //Macht das Startbildschirmfenster sichtbar
         });
     }
 }
