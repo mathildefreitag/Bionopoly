@@ -9,7 +9,7 @@ import java.util.List;
 
 import bionopoly.Spielfeld;
 import bionopoly.Spielfigur;
-import bionopoly.Währung;
+import bionopoly.Waehrung;
 
 public class StartbildschirmGui extends JPanel {
 	
@@ -51,7 +51,7 @@ public class StartbildschirmGui extends JPanel {
 
                 spielerNamen = Arrays.asList("Paramecium", "Regenwurm", "Heuschrecke", "Seestern", "Fisch", "Schwein"); //Initialisiert Spielernamen
 
-                Währung währung = new Währung(); //Initialisiert Währung
+                Waehrung währung = new Waehrung(); //Initialisiert Waehrung
                 Spielfeld spielfeld = new Spielfeld(50, 50, 612, 612); //Initialisiert Spielfeld
                 Spielfigur[] spieler = new Spielfigur[anzahlSpieler]; //Initialisiert Spielfigur
 
@@ -60,7 +60,7 @@ public class StartbildschirmGui extends JPanel {
                     spieler[i] = new Spielfigur(spielerNamen.get(i), spielfeld.feldAmOrt(0), farbe, währung); //Wählt eine Farbe für den Spieler basierend auf der Position in der Liste
                 }
 
-                währung.setSpieler(spieler); //Währung für die Spieler aus Währungklasse wird hinzugefügt (Startkapital)
+                währung.setSpieler(spieler); //Waehrung für die Spieler aus Währungklasse wird hinzugefügt (Startkapital)
 
                 //Erzeugt und zeigt das SpielbrettGui-Fenster
                 SwingUtilities.invokeLater(() -> {
