@@ -64,6 +64,7 @@ public class Spieler {
     public void spielerPleite(Spieler spieler) {
         System.out.println(spieler.getName() + " hat all seine Intelligenz verloren und muss das Bionik Studium schmeißen.");
         spieler.setPleite(true);
+        spielfeld.entferneSpieler(spieler); //Spieler aus dem Spielfeld entfernen (Hier wird scheinbar ausversehen das Fels auf Null gesetzt? Löst auf jeden Fall eine Fehlermeldung mit NullPointerExeption aus)
     }
 
     //Methode zum Kaufen/Bestehen eines Moduls
