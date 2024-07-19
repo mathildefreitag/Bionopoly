@@ -11,6 +11,8 @@ import bionopoly.Spielfeld;
 import bionopoly.Spielfigur;
 import bionopoly.Waehrung;
 
+//Die StartbildschirmGui enthält eine Main-Methode. Hier ist das Festlegen der Spieleranzahl programmiert.
+
 public class StartbildschirmGui extends JPanel {
 	
 	//Initialisierung verschiederner Variablen, Listen etc.
