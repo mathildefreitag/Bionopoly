@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingConstants;
 
+//Die Klasse Feld dient hauptsächlich dem Festlegen von Besitzern der Module und dem Zeichnen der Felder
+
 public class Feld extends JLabel {
 	
 	//Initialisierung von Variablen und Listen etc.
