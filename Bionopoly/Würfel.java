@@ -2,6 +2,8 @@ package bionopoly;
 
 import java.util.*; 
 
+//Diese Klasse beinhaltet das Würfeln mit zwei Würfel und den Pasch.
+
 public class Wuerfel {
 	
 	//Initialisierung der Variablen
