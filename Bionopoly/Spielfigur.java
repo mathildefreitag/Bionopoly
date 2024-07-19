@@ -6,6 +6,8 @@ import java.util.List;
 
 import gui.SpielfigurGui;
 
+//Diese Klasse ist zum Vorrücken der Spielfiguren gedacht und enthält Namen und Farben der Spielfiguren.
+
 public class Spielfigur extends Spieler {
 	
 	//Initialisierung der Variablen, Listen etc.
