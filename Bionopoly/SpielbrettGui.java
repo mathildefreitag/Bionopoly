@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
+//In der SpielbrettGui wurde das Spielbrett als png und die Anzeige der Würfel programmiert. Außerdem werden die Spielerpanel und weitere Informationsanzeigen angelegt.
+
 public class SpielbrettGui extends JFrame {
 	
 	//Intitalisierung der Variablen, Listen etc.
@@ -115,7 +117,7 @@ public class SpielbrettGui extends JFrame {
         updateAktuellerSpieler(); //Aktueller Spieler  wird angezeigt
     }
     
-  //Feldinformation wird in einem Panel unten linkss erstellt 
+    //Feldinformation wird in einem Panel unten links erstellt 
    private void InformationenPanelErstellen(JPanel panel) {
 	   
 	   JLabel fieldInfoLabel = new JLabel("Feldinformation:"); //Text im Panel
@@ -124,7 +126,7 @@ public class SpielbrettGui extends JFrame {
 	   panel.add(fieldInfoLabel); //Feldinformationslabel wird hinzugefügt
    }
    
- //Wuerfel und Aktions-Buttons werden in einem Panel unten rechts erstellt und erhalten ihre Funktionen
+   	//Wuerfel und Aktions-Buttons werden in einem Panel unten rechts erstellt und erhalten ihre Funktionen
     private void würfelPanelErstellen(JPanel panel) {
     	
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -223,7 +225,7 @@ public class SpielbrettGui extends JFrame {
         });
         buttonPanel.add(KaufenButton); //Button wird zum Panel hinzugefügt
 
-      //"Zug Beenden"-Button
+        //"Zug Beenden"-Button
         JButton zugBeendenButton = new JButton("Zug beenden"); //Das steht auf dem Button drauf
         zugBeendenButton.addActionListener(new ActionListener() { //ActionListener hinzugefügt
         	
@@ -283,7 +285,7 @@ public class SpielbrettGui extends JFrame {
         JPanel bestandeneModulePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5)); //Panel für Standortanzeige
         bestandeneModulePanel.setOpaque(false); //Transparentes Panel für Hintergrund des Standorttextes
         
-       //Label für bestandene Module mit angepasster Schriftgröße und Textposition
+        //Label für bestandene Module mit angepasster Schriftgröße und Textposition
         JLabel bestandeneModuleLabel = new JLabel("   Bestandene Module:"); //Hier sollen bestandene Module angezeigt werden
         bestandeneModuleLabel.setHorizontalAlignment(SwingConstants.CENTER); //Festlegung der Ausrichtung des Labels
         bestandeneModuleLabel.setFont(new Font("Arial", Font.PLAIN, 14)); //Festlegen der Schriftgröße und Schriftart für Standortanzeige
