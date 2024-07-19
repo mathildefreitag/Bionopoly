@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//Hier werden Besitz und Miete festgelegt und geprüft, ob der aktuelle Spieler pleite ist.
+
 public class Spieler {
 
 	//Intitalisierung der Variablen, Listen etc.
