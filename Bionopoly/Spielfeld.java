@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+//Die Klasse Spielfeld enthält eine Main-Methode und legt die Module fest. Außerdem werden die Spielfiguren Vorgerückt.
+
 public class Spielfeld extends JPanel {
 	
     private static final long serialVersionUID = 1L;
