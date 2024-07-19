@@ -1,5 +1,7 @@
 package bionopoly;
 
+// In der Klasse Waehrung wird die Starintelligenz festgelegt.
+
 public class Waehrung {
     
 	//Intitialisierung verschiedener Variablen etc. 
