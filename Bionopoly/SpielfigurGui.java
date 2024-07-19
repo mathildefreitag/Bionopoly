@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Die SpielfigurGui unterstützt das Anzeigen der Spielfiguren.
+
 public class SpielfigurGui {
     private Map<String, JLabel> spielfigurenLabels; //zuordnen von Strings zu Labeln
 
